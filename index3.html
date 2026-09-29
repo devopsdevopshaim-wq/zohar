@@ -1,0 +1,1530 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוח שנה עברי עם פרשות וחגים</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #4a6583;
+            --accent: #8b5a2b;
+            --light: #f8f5f0;
+            --shabbat: #8b5a2b;
+            --holiday: #e74c3c;
+            --today: #27ae60;
+            --rosh-hodesh: #9b59b6;
+            --parsha: #3498db;
+            --fast: #34495e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            direction: rtl;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .today-info {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .today-date {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .today-parsha {
+            background: linear-gradient(135deg, var(--parsha) 0%, #2980b9 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid white;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .today-parsha:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .year-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .year-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .year-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1);
+        }
+        
+        .current-year {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            min-width: 250px;
+            text-align: center;
+            padding: 10px 20px;
+            background: #f5f7fa;
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .view-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .view-btn {
+            padding: 12px 25px;
+            border: 2px solid var(--secondary);
+            background: white;
+            color: var(--secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        .view-btn:hover:not(.active) {
+            background: #f0f0f0;
+        }
+        
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .month-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .month-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #2c3e50;
+            padding: 12px 5px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .weekday {
+            text-align: center;
+            padding: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            padding: 15px;
+            background: #f0f0f0;
+        }
+        
+        .day-cell {
+            background: white;
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .day-cell:hover {
+            background: #f8f8f8;
+        }
+        
+        .day-cell.today {
+            background: #27ae60;
+            color: white;
+            border: 3px solid #27ae60;
+        }
+        
+        .day-cell.shabbat {
+            background: #f8f5f0;
+            border-right: 4px solid var(--shabbat);
+        }
+        
+        .day-cell.holiday {
+            background: #ffebee;
+            border-left: 4px solid var(--holiday);
+        }
+        
+        .day-cell.rosh-hodesh {
+            background: #f3e5f5;
+            border-bottom: 4px solid var(--rosh-hodesh);
+        }
+        
+        .day-cell.fast {
+            background: #eceff1;
+            border-top: 4px solid var(--fast);
+        }
+        
+        .day-cell.friday {
+            background: #e8f4f8;
+            border-top: 4px solid var(--parsha);
+        }
+        
+        .day-number {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+        }
+        
+        .hebrew-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+        
+        .gregorian-date {
+            font-size: 0.75rem;
+            color: #888;
+            margin-bottom: 3px;
+            background: rgba(0,0,0,0.05);
+            padding: 2px 4px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        
+        .day-info {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .parsha-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--parsha);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .holiday-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--holiday);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .rosh-hodesh-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--rosh-hodesh);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .fast-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--fast);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .hanukkah-candle {
+            display: inline-block;
+            width: 12px;
+            height: 15px;
+            background: linear-gradient(to bottom, #ffd700 0%, #ffed4e 30%, #fff 100%);
+            margin: 0 1px;
+            position: relative;
+            border-radius: 2px 2px 0 0;
+        }
+        
+        .hanukkah-candle::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 4px;
+            background: #ff6b6b;
+            border-radius: 50% 50% 0 0;
+        }
+        
+        .full-month-view {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .full-month-view.active {
+            display: block;
+        }
+        
+        .full-month-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #eee;
+        }
+        
+        .month-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            text-align: center;
+            flex: 1;
+        }
+        
+        .month-nav {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .full-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #2c3e50;
+            padding: 18px 10px;
+            font-weight: bold;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .full-days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            background: #f0f0f0;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            border: 2px solid #f0f0f0;
+        }
+        
+        .full-day-cell {
+            background: white;
+            padding: 15px 10px;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .full-day-cell:hover {
+            background: #f8f8f8;
+        }
+        
+        .full-day-cell.shabbat {
+            background: #f8f5f0;
+        }
+        
+        .full-day-cell.holiday {
+            background: #ffebee;
+        }
+        
+        .full-day-cell.rosh-hodesh {
+            background: #f3e5f5;
+        }
+        
+        .full-day-cell.fast {
+            background: #eceff1;
+        }
+        
+        .full-day-cell.friday {
+            background: #e8f4f8;
+        }
+        
+        .full-day-cell.today {
+            background: #27ae60;
+            color: white;
+            position: relative;
+        }
+        
+        .full-day-cell.today::before {
+            content: 'היום';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .full-day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+        
+        .full-day-number {
+            font-weight: bold;
+            font-size: 1.4rem;
+        }
+        
+        .full-hebrew-date {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 600;
+        }
+        
+        .full-day-content {
+            margin-top: auto;
+            font-size: 0.85rem;
+        }
+        
+        .parsha-name {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 4px;
+            background: var(--parsha);
+            padding: 5px 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .holiday-name {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 4px;
+            background: var(--holiday);
+            padding: 5px 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .rosh-hodesh-name {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 4px;
+            background: var(--rosh-hodesh);
+            padding: 5px 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .fast-name {
+            color: white;
+            font-weight: bold;
+            margin-bottom: 4px;
+            background: var(--fast);
+            padding: 5px 8px;
+            border-radius: 8px;
+            display: inline-block;
+        }
+        
+        .hanukkah-candles {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            margin: 5px 0;
+        }
+        
+        .holidays-view {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .holidays-view.active {
+            display: block;
+        }
+        
+        .holidays-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .holiday-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid var(--holiday);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .holiday-card.rosh-hodesh {
+            border-left-color: var(--rosh-hodesh);
+        }
+        
+        .holiday-card.fast {
+            border-left-color: var(--fast);
+        }
+        
+        .holiday-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .holiday-date {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .holiday-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .parsha-details {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .parsha-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .parsha-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid var(--accent);
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .parsha-card:hover {
+            border-left-color: var(--parsha);
+        }
+        
+        .parsha-title {
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .parsha-date {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .parsha-summary {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .close-modal {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: white;
+            font-size: 1rem;
+            margin-top: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-view {
+                grid-template-columns: 1fr;
+            }
+            
+            .today-info {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .year-controls {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .view-controls {
+                flex-direction: column;
+            }
+            
+            .view-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .full-month-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> לוח שנה עברי מלא</h1>
+            <p>לוח שנה עם פרשות שבוע, חגים, צומות ומועדים - עם התאמה מלאה לתאריכים</p>
+        </header>
+        
+        <div class="today-info">
+            <div class="today-date">
+                <div id="currentHebrewDate">טוען...</div>
+                <div id="currentGregorianDate">טוען...</div>
+            </div>
+            <div class="today-parsha" id="today-parsha">
+                <i class="fas fa-torah"></i> פרשת השבוע: טוען...
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="year-controls">
+                <button class="year-btn" onclick="changeYear(-1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="current-year" id="yearDisplay">שנת תשפ"ו</div>
+                <button class="year-btn" onclick="changeYear(1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+            </div>
+            
+            <div class="view-controls">
+                <button class="view-btn active" onclick="setView('calendar')">
+                    <i class="fas fa-calendar"></i> לוח שנה
+                </button>
+                <button class="view-btn" onclick="setView('full-month')">
+                    <i class="fas fa-calendar-day"></i> חודש מלא
+                </button>
+                <button class="view-btn" onclick="setView('holidays')">
+                    <i class="fas fa-star"></i> חגים וצומות
+                </button>
+            </div>
+        </div>
+        
+        <div id="calendar-view" class="calendar-view"></div>
+        
+        <div id="full-month-view" class="full-month-view">
+            <div class="full-month-header">
+                <div class="month-nav">
+                    <button class="year-btn" onclick="changeMonth(-1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="month-title" id="currentMonthTitle">כסלו תשפ"ו</div>
+                <div class="month-nav">
+                    <button class="year-btn" onclick="changeMonth(1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="full-weekdays"></div>
+            <div class="full-days-grid" id="full-month-days"></div>
+        </div>
+        
+        <div id="holidays-view" class="holidays-view">
+            <h2><i class="fas fa-star"></i> חגים, צומות ומועדים לשנת <span id="holidays-year"></span></h2>
+            <div class="holidays-grid" id="holidays-grid"></div>
+        </div>
+        
+        <div class="parsha-details">
+            <h2><i class="fas fa-torah"></i> פרשות החודש</h2>
+            <div class="parsha-list" id="parsha-list"></div>
+        </div>
+    </div>
+    
+    <div class="modal" id="parsha-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-torah"></i> <span id="parsha-modal-title">פרשה</span>
+                </div>
+                <button class="close-modal" onclick="closeParshaModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="parsha-modal-body">
+                <!-- נטען דינמית -->
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 לוח שנה עברי עם פרשות, חגים וצומות</p>
+    </footer>
+
+    <script>
+        // ==================== מערכת תאריכים מדויקת ====================
+        
+        // נתונים לשנת תשפ"ו (2025-2026)
+        const HEBREW_MONTHS = [
+            'תשרי', 'חשוון', 'כסלו', 'טבת', 'שבט', 'אדר א׳',
+            'אדר ב׳', 'ניסן', 'אייר', 'סיוון', 'תמוז', 'אב', 'אלול'
+        ];
+        
+        const WEEKDAYS = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+        
+        const HEBREW_NUMERALS = {
+            1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה',
+            6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י',
+            20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ',
+            60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ',
+            100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת'
+        };
+        
+        // חודשים לשנת תשפ"ו
+        const MONTH_LENGTHS_5786 = [30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30, 29];
+        
+        // תאריך התחלה של תשפ"ו
+        const ROSH_HASHANA_5786 = new Date(2025, 8, 23); // 23 ספטמבר 2025
+        
+        class HebrewCalendar {
+            constructor() {
+                this.currentYear = 5786;
+                this.displayYear = 5786;
+                this.displayMonth = 2; // כסלו
+                this.currentDate = new Date();
+                
+                // חשב את התאריך העברי הנוכחי
+                this.currentHebrewDate = this.calculateCurrentHebrewDate();
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateTodayInfo();
+                this.renderCalendar();
+                this.setupEventListeners();
+            }
+            
+            // חישוב תאריך עברי נוכחי
+            calculateCurrentHebrewDate() {
+                const today = new Date();
+                const start = new Date(ROSH_HASHANA_5786);
+                
+                // הפרש בימים
+                const diffTime = today - start;
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                let days = diffDays + 1; // +1 כי 1 תשרי = יום 1
+                let month = 0;
+                let day = 1;
+                
+                // מצא חודש ויום
+                for (let i = 0; i < MONTH_LENGTHS_5786.length; i++) {
+                    if (days <= MONTH_LENGTHS_5786[i]) {
+                        month = i;
+                        day = days;
+                        break;
+                    }
+                    days -= MONTH_LENGTHS_5786[i];
+                }
+                
+                return { year: 5786, month, day };
+            }
+            
+            // המרת מספר לעברית
+            toHebrewNumeral(num) {
+                if (num <= 0) return '';
+                if (num === 15) return 'ט"ו';
+                if (num === 16) return 'ט"ז';
+                if (num <= 10) return HEBREW_NUMERALS[num];
+                
+                if (HEBREW_NUMERALS[num]) return HEBREW_NUMERALS[num];
+                
+                let result = '';
+                let remaining = num;
+                
+                if (remaining >= 400) {
+                    const hundreds = Math.floor(remaining / 100) * 100;
+                    result += HEBREW_NUMERALS[hundreds] || '';
+                    remaining %= 100;
+                }
+                
+                if (remaining > 0) {
+                    if (remaining === 15) {
+                        result += 'ט"ו';
+                    } else if (remaining === 16) {
+                        result += 'ט"ז';
+                    } else if (remaining <= 10) {
+                        result += HEBREW_NUMERALS[remaining];
+                    } else {
+                        const tens = Math.floor(remaining / 10) * 10;
+                        const units = remaining % 10;
+                        
+                        if (HEBREW_NUMERALS[tens]) result += HEBREW_NUMERALS[tens];
+                        if (units > 0) result += HEBREW_NUMERALS[units];
+                    }
+                }
+                
+                if (result.length > 1 && num > 10 && num !== 15 && num !== 16) {
+                    result = result.slice(0, -1) + '"' + result.slice(-1);
+                }
+                
+                return result;
+            }
+            
+            // עדכון תאריך נוכחי
+            updateTodayInfo() {
+                const hebrew = this.currentHebrewDate;
+                const hebrewDay = this.toHebrewNumeral(hebrew.day);
+                const monthName = HEBREW_MONTHS[hebrew.month];
+                
+                // בדיקת חנוכה
+                let hanukkahInfo = '';
+                if (hebrew.month === 2 && hebrew.day >= 25) { // כסלו
+                    hanukkahInfo = ` - נר ${this.toHebrewNumeral(hebrew.day - 24)} של חנוכה`;
+                } else if (hebrew.month === 3 && hebrew.day <= 2) { // טבת
+                    const daysInKislev = MONTH_LENGTHS_5786[2];
+                    const hanukkahDay = hebrew.day + (daysInKislev - 24);
+                    if (hanukkahDay <= 8) {
+                        hanukkahInfo = ` - נר ${this.toHebrewNumeral(hanukkahDay)} של חנוכה`;
+                    }
+                }
+                
+                const hebrewDateStr = `${hebrewDay} ב${monthName} תשפ"ו${hanukkahInfo}`;
+                const gregorianDateStr = this.currentDate.toLocaleDateString('he-IL', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                document.getElementById('currentHebrewDate').textContent = hebrewDateStr;
+                document.getElementById('currentGregorianDate').textContent = gregorianDateStr;
+                
+                // פרשת השבוע
+                const todayParsha = this.getParshaForToday();
+                const parshaElement = document.getElementById('today-parsha');
+                parshaElement.innerHTML = `<i class="fas fa-torah"></i> פרשת השבוע: ${todayParsha}`;
+                parshaElement.onclick = () => this.showParshaModal(todayParsha);
+                
+                document.getElementById('yearDisplay').textContent = 'שנת תשפ"ו';
+            }
+            
+            // פרשה להיום
+            getParshaForToday() {
+                // פרשות לשנת תשפ"ו
+                const parshiot = {
+                    '2025-12-12': 'וישב',
+                    '2025-12-19': 'מקץ',
+                    '2025-12-26': 'ויגש',
+                    '2026-01-02': 'ויחי',
+                    '2026-01-09': 'שמות',
+                    '2026-01-16': 'וארא',
+                    '2026-01-23': 'בא'
+                };
+                
+                const today = new Date();
+                const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+                
+                // מצא את השבת הקרובה
+                let targetDate = new Date(today);
+                let dayOfWeek = targetDate.getDay();
+                
+                if (dayOfWeek === 6) { // שבת
+                    // כבר בתאריך הנכון
+                } else {
+                    // חפש את השבת הקרובה
+                    targetDate.setDate(targetDate.getDate() + (6 - dayOfWeek));
+                }
+                
+                const targetStr = `${targetDate.getFullYear()}-${String(targetDate.getMonth() + 1).padStart(2, '0')}-${String(targetDate.getDate()).padStart(2, '0')}`;
+                
+                return parshiot[targetStr] || 'מקץ';
+            }
+            
+            // יום בשבוע לתאריך עברי
+            getWeekday(year, month, day) {
+                const startWeekday = 2; // 1 תשרי = שלישי
+                let totalDays = day - 1;
+                
+                for (let i = 0; i < month; i++) {
+                    totalDays += MONTH_LENGTHS_5786[i];
+                }
+                
+                return (startWeekday + totalDays) % 7;
+            }
+            
+            // תאריך גרגוריאני לתאריך עברי
+            getGregorianDate(year, month, day) {
+                const startDate = new Date(ROSH_HASHANA_5786);
+                let totalDays = day - 1;
+                
+                for (let i = 0; i < month; i++) {
+                    totalDays += MONTH_LENGTHS_5786[i];
+                }
+                
+                const resultDate = new Date(startDate);
+                resultDate.setDate(startDate.getDate() + totalDays);
+                return resultDate;
+            }
+            
+            // חג לתאריך
+            getHoliday(year, month, day) {
+                const holidays = {
+                    '7-1': { name: 'ראש השנה', type: 'holiday' },
+                    '7-2': { name: 'ראש השנה', type: 'holiday' },
+                    '7-3': { name: 'צום גדליה', type: 'fast' },
+                    '7-10': { name: 'יום כיפור', type: 'fast' },
+                    '7-15': { name: 'סוכות', type: 'holiday' },
+                    '7-16': { name: 'סוכות', type: 'holiday' },
+                    '7-22': { name: 'שמיני עצרת', type: 'holiday' },
+                    '7-23': { name: 'שמחת תורה', type: 'holiday' },
+                    '9-25': { name: 'חנוכה - נר ראשון', type: 'holiday' },
+                    '9-26': { name: 'חנוכה - נר שני', type: 'holiday' },
+                    '9-27': { name: 'חנוכה - נר שלישי', type: 'holiday' },
+                    '9-28': { name: 'חנוכה - נר רביעי', type: 'holiday' },
+                    '9-29': { name: 'חנוכה - נר חמישי', type: 'holiday' },
+                    '9-30': { name: 'חנוכה - נר שישי', type: 'holiday' },
+                    '10-1': { name: 'חנוכה - נר שביעי', type: 'holiday' },
+                    '10-2': { name: 'חנוכה - נר שמיני', type: 'holiday' },
+                    '10-10': { name: 'עשרה בטבת', type: 'fast' },
+                    '11-15': { name: 'טו בשבט', type: 'holiday' },
+                    '1-15': { name: 'פסח', type: 'holiday' },
+                    '1-21': { name: 'שביעי של פסח', type: 'holiday' },
+                    '3-6': { name: 'שבועות', type: 'holiday' }
+                };
+                
+                const key = `${month + 7}-${day}`;
+                const holiday = holidays[key];
+                
+                // ראש חודש
+                if (day === 1) {
+                    return { name: 'ראש חודש', type: 'rosh-hodesh' };
+                }
+                if (day === 30 && MONTH_LENGTHS_5786[month] === 30) {
+                    return { name: 'ראש חודש', type: 'rosh-hodesh' };
+                }
+                
+                return holiday;
+            }
+            
+            // חנוכה
+            getHanukkahInfo(month, day) {
+                if (month === 2 && day >= 25) {
+                    return { day: day - 24, total: 8 };
+                }
+                if (month === 3 && day <= 2) {
+                    const hanukkahDay = day + (MONTH_LENGTHS_5786[2] - 24);
+                    if (hanukkahDay <= 8) {
+                        return { day: hanukkahDay, total: 8 };
+                    }
+                }
+                return null;
+            }
+            
+            // פרשה לתאריך
+            getParsha(month, day) {
+                const date = this.getGregorianDate(5786, month, day);
+                const dateStr = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+                
+                const parshiot = {
+                    '2025-12-12': 'וישב',
+                    '2025-12-19': 'מקץ',
+                    '2025-12-26': 'ויגש'
+                };
+                
+                return parshiot[dateStr] || null;
+            }
+            
+            // בדיקת היום הנוכחי
+            isToday(month, day) {
+                return this.currentHebrewDate.month === month && 
+                       this.currentHebrewDate.day === day;
+            }
+            
+            // נרות חנוכה
+            createHanukkahCandles(count) {
+                let candles = '';
+                for (let i = 0; i < count; i++) {
+                    candles += '<div class="hanukkah-candle"></div>';
+                }
+                return candles;
+            }
+            
+            // הצגת לוח שנה
+            renderCalendar() {
+                const container = document.getElementById('calendar-view');
+                container.innerHTML = '';
+                
+                for (let monthIndex = 0; monthIndex < HEBREW_MONTHS.length; monthIndex++) {
+                    if (monthIndex >= 6) continue; // הצג רק 6 חודשים ראשונים לדוגמה
+                    
+                    const monthCard = this.createMonthCard(monthIndex);
+                    container.appendChild(monthCard);
+                }
+                
+                this.renderParshaList();
+                this.updateFullMonthView();
+                this.updateHolidaysView();
+            }
+            
+            // יצירת כרטיס חודש
+            createMonthCard(monthIndex) {
+                const daysInMonth = MONTH_LENGTHS_5786[monthIndex];
+                const monthName = HEBREW_MONTHS[monthIndex];
+                
+                const card = document.createElement('div');
+                card.className = 'month-card';
+                
+                // כותרת
+                const header = document.createElement('div');
+                header.className = 'month-header';
+                header.textContent = monthName + ' תשפ"ו';
+                card.appendChild(header);
+                
+                // ימי השבוע
+                const weekdaysDiv = document.createElement('div');
+                weekdaysDiv.className = 'weekdays';
+                WEEKDAYS.forEach(day => {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'weekday';
+                    dayDiv.textContent = day;
+                    weekdaysDiv.appendChild(dayDiv);
+                });
+                card.appendChild(weekdaysDiv);
+                
+                // ימים
+                const daysGrid = document.createElement('div');
+                daysGrid.className = 'days-grid';
+                
+                // יום ראשון של החודש
+                const firstWeekday = this.getWeekday(5786, monthIndex, 1);
+                
+                // ריקים
+                for (let i = 0; i < firstWeekday; i++) {
+                    const empty = document.createElement('div');
+                    empty.className = 'day-cell';
+                    empty.style.visibility = 'hidden';
+                    daysGrid.appendChild(empty);
+                }
+                
+                // ימי החודש
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = this.createDayCell(monthIndex, day);
+                    daysGrid.appendChild(dayCell);
+                }
+                
+                card.appendChild(daysGrid);
+                return card;
+            }
+            
+            // יצירת תא יום
+            createDayCell(month, day) {
+                const weekday = this.getWeekday(5786, month, day);
+                const isShabbat = weekday === 6;
+                const isFriday = weekday === 5;
+                const holiday = this.getHoliday(5786, month, day);
+                const hanukkahInfo = this.getHanukkahInfo(month, day);
+                const parsha = this.getParsha(month, day);
+                const gregorianDate = this.getGregorianDate(5786, month, day);
+                const weekdayName = WEEKDAYS[weekday];
+                const isToday = this.isToday(month, day);
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = 'day-cell';
+                
+                if (isShabbat) dayCell.classList.add('shabbat');
+                if (isFriday) dayCell.classList.add('friday');
+                if (holiday) dayCell.classList.add(holiday.type);
+                if (isToday) dayCell.classList.add('today');
+                
+                // תוכן התא
+                const gregorianDisplay = `${gregorianDate.getDate()}.${gregorianDate.getMonth() + 1}`;
+                
+                let dayInfo = '';
+                if (parsha && isFriday) {
+                    dayInfo += `<div class="day-info parsha-indicator">${parsha}</div>`;
+                }
+                if (holiday) {
+                    const indicatorClass = holiday.type === 'fast' ? 'fast-indicator' :
+                                         holiday.type === 'rosh-hodesh' ? 'rosh-hodesh-indicator' :
+                                         'holiday-indicator';
+                    dayInfo += `<div class="day-info ${indicatorClass}">${holiday.name}</div>`;
+                }
+                
+                let hanukkahCandles = '';
+                if (hanukkahInfo) {
+                    hanukkahCandles = `<div class="hanukkah-candles">${this.createHanukkahCandles(hanukkahInfo.day)}</div>`;
+                }
+                
+                dayCell.innerHTML = `
+                    <div class="day-number">${day}</div>
+                    <div class="hebrew-date">${this.toHebrewNumeral(day)}</div>
+                    <div class="gregorian-date">${gregorianDisplay} (${weekdayName})</div>
+                    ${hanukkahCandles}
+                    ${dayInfo}
+                `;
+                
+                // לחיצה על היום
+                dayCell.addEventListener('click', () => {
+                    this.showDayDetails(month, day, holiday, hanukkahInfo);
+                });
+                
+                return dayCell;
+            }
+            
+            // פרשות החודש
+            renderParshaList() {
+                const container = document.getElementById('parsha-list');
+                container.innerHTML = '';
+                
+                // פרשות לדוגמה
+                const parshiot = [
+                    { name: 'מקץ', date: 'כ׳ו בכסלו', summary: 'פרשת מקץ - יוסף פותר חלומות' },
+                    { name: 'ויגש', date: 'ג׳ בטבת', summary: 'פרשת ויגש - יוסף מתגלה לאחיו' }
+                ];
+                
+                parshiot.forEach(parsha => {
+                    const card = document.createElement('div');
+                    card.className = 'parsha-card';
+                    card.innerHTML = `
+                        <div class="parsha-title">
+                            <i class="fas fa-torah"></i> פרשת ${parsha.name}
+                        </div>
+                        <div class="parsha-date">
+                            <i class="fas fa-calendar"></i> ${parsha.date}
+                        </div>
+                        <div class="parsha-summary">${parsha.summary}</div>
+                    `;
+                    
+                    card.addEventListener('click', () => {
+                        this.showParshaModal(parsha.name);
+                    });
+                    
+                    container.appendChild(card);
+                });
+            }
+            
+            // תצוגת חודש מלא
+            updateFullMonthView() {
+                const monthName = HEBREW_MONTHS[this.displayMonth];
+                document.getElementById('currentMonthTitle').textContent = monthName + ' תשפ"ו';
+                
+                // ימי השבוע
+                const weekdaysDiv = document.querySelector('.full-weekdays');
+                weekdaysDiv.innerHTML = '';
+                WEEKDAYS.forEach(day => {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.textContent = day;
+                    weekdaysDiv.appendChild(dayDiv);
+                });
+                
+                // ימים
+                const daysGrid = document.getElementById('full-month-days');
+                daysGrid.innerHTML = '';
+                
+                const daysInMonth = MONTH_LENGTHS_5786[this.displayMonth];
+                const firstWeekday = this.getWeekday(5786, this.displayMonth, 1);
+                
+                // ריקים
+                for (let i = 0; i < firstWeekday; i++) {
+                    const empty = document.createElement('div');
+                    empty.className = 'full-day-cell';
+                    empty.style.visibility = 'hidden';
+                    daysGrid.appendChild(empty);
+                }
+                
+                // ימי החודש
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const dayCell = this.createFullDayCell(this.displayMonth, day);
+                    daysGrid.appendChild(dayCell);
+                }
+            }
+            
+            // תא יום בתצוגה מלאה
+            createFullDayCell(month, day) {
+                const weekday = this.getWeekday(5786, month, day);
+                const isShabbat = weekday === 6;
+                const isFriday = weekday === 5;
+                const holiday = this.getHoliday(5786, month, day);
+                const hanukkahInfo = this.getHanukkahInfo(month, day);
+                const parsha = this.getParsha(month, day);
+                const gregorianDate = this.getGregorianDate(5786, month, day);
+                const isToday = this.isToday(month, day);
+                
+                const dayCell = document.createElement('div');
+                dayCell.className = 'full-day-cell';
+                
+                if (isShabbat) dayCell.classList.add('shabbat');
+                if (isFriday) dayCell.classList.add('friday');
+                if (holiday) dayCell.classList.add(holiday.type);
+                if (isToday) dayCell.classList.add('today');
+                
+                const gregorianDisplay = `${gregorianDate.getDate()}.${gregorianDate.getMonth() + 1}`;
+                
+                let content = '';
+                if (parsha && isFriday) {
+                    content += `<div class="parsha-name">פרשת ${parsha}</div>`;
+                }
+                if (holiday) {
+                    const nameClass = holiday.type === 'fast' ? 'fast-name' :
+                                    holiday.type === 'rosh-hodesh' ? 'rosh-hodesh-name' :
+                                    'holiday-name';
+                    content += `<div class="${nameClass}">${holiday.name}</div>`;
+                }
+                if (hanukkahInfo) {
+                    content += `<div class="hanukkah-candles">${this.createHanukkahCandles(hanukkahInfo.day)}</div>`;
+                }
+                
+                dayCell.innerHTML = `
+                    <div class="full-day-header">
+                        <div>
+                            <div class="full-day-number">${day}</div>
+                            <div class="full-hebrew-date">${this.toHebrewNumeral(day)}</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #888;">${gregorianDisplay}</div>
+                    </div>
+                    <div class="full-day-content">
+                        ${content}
+                    </div>
+                `;
+                
+                return dayCell;
+            }
+            
+            // תצוגת חגים
+            updateHolidaysView() {
+                document.getElementById('holidays-year').textContent = 'תשפ"ו';
+                const grid = document.getElementById('holidays-grid');
+                grid.innerHTML = '';
+                
+                // חגים לדוגמה
+                const holidays = [
+                    { name: 'חנוכה', date: 'כ׳ה בכסלו - ג׳ בטבת', type: 'holiday', desc: 'חג האורים' },
+                    { name: 'טו בשבט', date: 'ט׳ו בשבט', type: 'holiday', desc: 'ראש השנה לאילנות' },
+                    { name: 'פורים', date: 'י׳ד באדר', type: 'holiday', desc: 'פורים' }
+                ];
+                
+                holidays.forEach(holiday => {
+                    const card = document.createElement('div');
+                    card.className = `holiday-card ${holiday.type}`;
+                    card.innerHTML = `
+                        <div class="holiday-title">
+                            <i class="fas fa-star"></i> ${holiday.name}
+                        </div>
+                        <div class="holiday-date">
+                            <i class="fas fa-calendar-alt"></i> ${holiday.date}
+                        </div>
+                        <div class="holiday-desc">${holiday.desc}</div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+            
+            // פרטים על יום
+            showDayDetails(month, day, holiday, hanukkahInfo) {
+                const monthName = HEBREW_MONTHS[month];
+                const hebrewDay = this.toHebrewNumeral(day);
+                
+                let message = `${hebrewDay} ב${monthName} תשפ"ו\n`;
+                
+                if (hanukkahInfo) {
+                    message += `חנוכה - נר ${this.toHebrewNumeral(hanukkahInfo.day)}\n`;
+                }
+                
+                if (holiday) {
+                    message += `${holiday.name}\n`;
+                }
+                
+                alert(message);
+            }
+            
+            // מודאל פרשה
+            showParshaModal(parshaName) {
+                document.getElementById('parsha-modal-title').textContent = 'פרשת ' + parshaName;
+                document.getElementById('parsha-modal-body').innerHTML = `
+                    <h3>פרשת ${parshaName}</h3>
+                    <p>פירוט מלא של הפרשה יופיע כאן.</p>
+                    <p>בגרסה המלאה יהיה כאן פירוש מלא מהזוהר, רש"י, רמב"ן ועוד.</p>
+                `;
+                document.getElementById('parsha-modal').classList.add('active');
+            }
+            
+            closeParshaModal() {
+                document.getElementById('parsha-modal').classList.remove('active');
+            }
+            
+            setView(view) {
+                // הסר active מכל הכפתורים
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                // הוסף active לכפתור הנוכחי
+                event.target.classList.add('active');
+                
+                // הסתר כל התצוגות
+                document.getElementById('calendar-view').style.display = 'none';
+                document.getElementById('full-month-view').classList.remove('active');
+                document.getElementById('holidays-view').classList.remove('active');
+                
+                // הצג את התצוגה הנבחרת
+                switch(view) {
+                    case 'calendar':
+                        document.getElementById('calendar-view').style.display = 'grid';
+                        break;
+                    case 'full-month':
+                        document.getElementById('full-month-view').classList.add('active');
+                        break;
+                    case 'holidays':
+                        document.getElementById('holidays-view').classList.add('active');
+                        break;
+                }
+            }
+            
+            changeYear(delta) {
+                alert('בגרסה זו מוצגת רק שנת תשפ"ו');
+            }
+            
+            changeMonth(delta) {
+                this.displayMonth = (this.displayMonth + delta + 13) % 13;
+                this.updateFullMonthView();
+            }
+            
+            setupEventListeners() {
+                // סגירת מודאל בלחיצה מחוץ לתוכן
+                document.getElementById('parsha-modal').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('parsha-modal')) {
+                        this.closeParshaModal();
+                    }
+                });
+            }
+        }
+        
+        // ==================== אתחול ====================
+        
+        let calendar;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            calendar = new HebrewCalendar();
+        });
+        
+        // פונקציות גלובליות
+        function changeYear(delta) {
+            calendar.changeYear(delta);
+        }
+        
+        function changeMonth(delta) {
+            calendar.changeMonth(delta);
+        }
+        
+        function setView(view) {
+            calendar.setView(view);
+        }
+        
+        function showParshaModal(parshaName) {
+            calendar.showParshaModal(parshaName);
+        }
+        
+        function closeParshaModal() {
+            calendar.closeParshaModal();
+        }
+    </script>
+</body>
+</html>

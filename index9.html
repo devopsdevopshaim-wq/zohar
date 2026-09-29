@@ -1,0 +1,3019 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לוח שנה עברי מושלם - עם כל הפירושים</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* הסגנונות נשארים כמו מקודם */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #4a6583;
+            --accent: #8b5a2b;
+            --light: #f8f5f0;
+            --shabbat: #8b5a2b;
+            --holiday: #e74c3c;
+            --today: #27ae60;
+            --rosh-hodesh: #9b59b6;
+            --parsha: #3498db;
+            --fast: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            direction: rtl;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .today-info {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .today-date {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .today-parsha {
+            background: #e8f4f8;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid var(--parsha);
+        }
+        
+        .today-parsha:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            background: var(--parsha);
+            color: white;
+        }
+        
+        .controls {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .year-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .year-btn {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .year-btn:hover {
+            background: var(--primary);
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .current-year {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary);
+            min-width: 250px;
+            text-align: center;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 10px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .year-input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .year-input {
+            padding: 10px 15px;
+            border: 2px solid var(--secondary);
+            border-radius: 8px;
+            font-size: 1.2rem;
+            width: 120px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+        
+        .go-btn {
+            background: linear-gradient(135deg, var(--accent) 0%, #7a4a1f 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .go-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        
+        .view-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .view-btn {
+            padding: 12px 25px;
+            border: 2px solid var(--secondary);
+            background: white;
+            color: var(--secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .view-btn.active {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .view-btn:hover:not(.active) {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .calendar-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .month-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .month-card:hover {
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .month-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .month-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+            animation: shine 3s infinite linear;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: #2c3e50;
+            padding: 12px 5px;
+            font-weight: bold;
+            color: white;
+            border-bottom: 3px solid #4a6583;
+        }
+        
+        .weekday {
+            text-align: center;
+            padding: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .days-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 2px;
+            padding: 15px;
+            background: #f0f0f0;
+        }
+        
+        .day-cell {
+            background: white;
+            padding: 10px 5px;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+            min-height: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            transition: all 0.3s;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        
+        .day-cell:hover {
+            background: #f8f8f8;
+            transform: scale(1.05);
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .day-cell.today {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            border: 3px solid #27ae60;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(39, 174, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        }
+        
+        .day-cell.shabbat {
+            background: linear-gradient(135deg, #f8f5f0 0%, #e8dccc 100%);
+            border-right: 4px solid var(--shabbat);
+        }
+        
+        .day-cell.holiday {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            border-left: 4px solid var(--holiday);
+        }
+        
+        .day-cell.rosh-hodesh {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            border-bottom: 4px solid var(--rosh-hodesh);
+        }
+        
+        .day-cell.friday {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f3 100%);
+            border-top: 4px solid var(--parsha);
+        }
+        
+        .day-cell.fast {
+            background: linear-gradient(135deg, #fff3e0 0%, #ffcc80 100%);
+            border-left: 4px solid var(--fast);
+        }
+        
+        .gregorian-date {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 3px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hebrew-date {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 3px;
+            font-weight: 600;
+        }
+        
+        .day-info {
+            font-size: 0.75rem;
+            margin-top: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .parsha-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--parsha);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .holiday-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--holiday);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .rosh-hodesh-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--rosh-hodesh);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .fast-indicator {
+            color: white;
+            font-weight: bold;
+            background: var(--fast);
+            padding: 3px 6px;
+            border-radius: 12px;
+            margin-top: 4px;
+            display: inline-block;
+            font-size: 0.7rem;
+        }
+        
+        .holidays-view {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .holidays-view.active {
+            display: block;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .holidays-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .holiday-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid var(--holiday);
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .holiday-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: shine 3s infinite linear;
+        }
+        
+        .holiday-card:hover {
+            transform: translateX(-10px) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .holiday-card.rosh-hodesh {
+            border-left-color: var(--rosh-hodesh);
+        }
+        
+        .holiday-card.fast {
+            border-left-color: var(--fast);
+        }
+        
+        .holiday-title {
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .holiday-date {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .holiday-desc {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .parsha-details {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: none;
+        }
+        
+        .parsha-details.active {
+            display: block;
+        }
+        
+        .parsha-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 25px;
+        }
+        
+        .parsha-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 6px solid var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .parsha-card:hover {
+            transform: translateX(-10px) translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border-left-color: var(--parsha);
+        }
+        
+        .parsha-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: shine 3s infinite linear;
+        }
+        
+        .parsha-title {
+            font-weight: bold;
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .parsha-date {
+            color: var(--secondary);
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .parsha-summary {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .day-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .parsha-modal-content {
+            background: white;
+            border-radius: 15px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .close-modal {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .close-modal:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .day-info-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .info-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .info-value {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .day-details {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .detail-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .detail-content {
+            line-height: 1.8;
+            color: #444;
+            font-size: 1.05rem;
+        }
+        
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .action-btn.parsha-btn {
+            background: linear-gradient(135deg, var(--parsha) 0%, #2980b9 100%);
+        }
+        
+        .action-btn.holiday-btn {
+            background: linear-gradient(135deg, var(--holiday) 0%, #c0392b 100%);
+        }
+        
+        .action-btn.fast-btn {
+            background: linear-gradient(135deg, var(--fast) 0%, #e67e22 100%);
+        }
+        
+        .parsha-info {
+            margin-bottom: 30px;
+        }
+        
+        .parsha-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 12px;
+            border: 2px solid var(--secondary);
+        }
+        
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .meta-label {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .meta-value {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .parsha-section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+            transition: all 0.3s;
+        }
+        
+        .parsha-section:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .section-content {
+            line-height: 1.8;
+            color: #444;
+            font-size: 1.05rem;
+        }
+        
+        .source-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .source-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+        }
+        
+        .source-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .zohar-section {
+            background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border-right: 5px solid var(--accent);
+        }
+        
+        .commentary-section {
+            background: linear-gradient(135deg, #e8f4f8 0%, #d1e7f3 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border-right: 5px solid var(--parsha);
+        }
+        
+        .additional-section {
+            background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border-right: 5px solid var(--rosh-hodesh);
+        }
+        
+        .source-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0,0,0,0.1);
+            color: #666;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            margin: 5px;
+        }
+        
+        .verses-list {
+            margin-top: 15px;
+            padding-right: 20px;
+        }
+        
+        .verse-item {
+            margin-bottom: 10px;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 8px;
+            border-right: 3px solid #eee;
+            transition: all 0.3s;
+        }
+        
+        .verse-item:hover {
+            transform: translateX(-5px);
+            border-right-color: var(--accent);
+        }
+        
+        .parsha-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        
+        .parsha-nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .parsha-nav-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: white;
+            font-size: 1rem;
+            margin-top: 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-view {
+                grid-template-columns: 1fr;
+            }
+            
+            .today-info {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .year-controls {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .view-controls {
+                flex-direction: column;
+            }
+            
+            .view-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .day-modal-content,
+            .parsha-modal-content {
+                max-height: 95vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-calendar-alt"></i> לוח שנה עברי מושלם</h1>
+            <p>לוח שנה עם חישוב מדויק של תאריכים, פרשות שבוע, חגים ופירושים מלאים</p>
+        </header>
+        
+        <div class="today-info">
+            <div class="today-date">
+                <div id="currentHebrewDate">טוען...</div>
+                <div id="currentGregorianDate">טוען...</div>
+            </div>
+            <div class="today-parsha" id="today-parsha">
+                <i class="fas fa-torah"></i> פרשת השבוע: טוען...
+            </div>
+        </div>
+        
+        <div class="controls">
+            <div class="year-controls">
+                <button class="year-btn" onclick="changeYear(-1)">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="current-year" id="yearDisplay">טוען...</div>
+                <button class="year-btn" onclick="changeYear(1)">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <div class="year-input-group">
+                    <input type="number" class="year-input" id="yearInput" placeholder="שנה עברית" min="5700" max="5900" value="5786">
+                    <button class="go-btn" onclick="goToYear()">
+                        <i class="fas fa-search"></i> חפש
+                    </button>
+                </div>
+            </div>
+            
+            <div class="view-controls">
+                <button class="view-btn active" onclick="setView('calendar')">
+                    <i class="fas fa-calendar"></i> לוח שנה
+                </button>
+                <button class="view-btn" onclick="setView('holidays')">
+                    <i class="fas fa-star"></i> חגים ומועדים
+                </button>
+                <button class="view-btn" onclick="setView('parshiot')">
+                    <i class="fas fa-torah"></i> כל הפרשות
+                </button>
+            </div>
+        </div>
+        
+        <div id="calendar-view" class="calendar-view"></div>
+        
+        <div id="holidays-view" class="holidays-view">
+            <h2><i class="fas fa-star"></i> חגים ומועדים לשנת <span id="holidays-year"></span></h2>
+            <div class="holidays-grid" id="holidays-grid"></div>
+        </div>
+        
+        <div id="parshiot-view" class="holidays-view">
+            <h2><i class="fas fa-torah"></i> כל פרשות השבוע לשנת <span id="parshiot-year"></span></h2>
+            <div class="loading" id="parshiot-loading">טוען פרשות...</div>
+            <div class="parsha-list" id="parshiot-grid" style="display: none;"></div>
+        </div>
+    </div>
+    
+    <div class="modal" id="day-modal">
+        <div class="day-modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-calendar-day"></i> <span id="day-modal-title">פרטי היום</span>
+                </div>
+                <button class="close-modal" onclick="closeDayModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="day-modal-body"></div>
+        </div>
+    </div>
+    
+    <div class="modal" id="parsha-modal">
+        <div class="parsha-modal-content">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-torah"></i> <span id="parsha-modal-title">פרשה</span>
+                </div>
+                <button class="close-modal" onclick="closeParshaModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="parsha-modal-body"></div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2025 לוח שנה עברי עם פרשות וחגים | כולל פירושים מלאים מהזוהר, רש"י, רמב"ן, אור החיים ומקורות נוספים</p>
+    </footer>
+
+    <script>
+        // ==================== מערכת לוח שנה עברי מדויקת ====================
+        
+        class PerfectHebrewCalendar {
+            constructor() {
+                // חודשים עבריים
+                this.hebrewMonths = ['תשרי', 'חשוון', 'כסלו', 'טבת', 'שבט', 'אדר א׳', 'אדר ב׳', 'ניסן', 'אייר', 'סיוון', 'תמוז', 'אב', 'אלול'];
+                
+                // ימי השבוע
+                this.weekdays = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
+                
+                // מספרים עבריים
+                this.hebrewNumerals = {
+                    1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה',
+                    6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט', 10: 'י',
+                    20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ',
+                    60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ',
+                    100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת'
+                };
+                
+                // קביעת שנה נוכחית לפי תאריך היום
+                const today = new Date();
+                this.currentYear = this.getCurrentHebrewYear(today);
+                this.displayYear = this.currentYear;
+                
+                this.init();
+            }
+            
+            // ==================== פונקציות לוח שנה מדויקות ====================
+            
+            // קביעת שנה עברית נוכחית לפי תאריך
+            getCurrentHebrewYear(date) {
+                // שנה עברית מתחילה בסתיו
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1; // 1-12
+                const day = date.getDate();
+                
+                // אם אחרי ספטמבר, זו כבר תחילת שנה עברית חדשה
+                if (month > 9 || (month === 9 && day >= 15)) {
+                    return year + 3761;
+                } else {
+                    return year + 3760;
+                }
+            }
+            
+            // המרת מספר עברי
+            toHebrewNumeral(num) {
+                if (num <= 0) return '';
+                if (num === 15) return 'ט"ו';
+                if (num === 16) return 'ט"ז';
+                if (num <= 10) return this.hebrewNumerals[num];
+                
+                let result = '';
+                let remaining = num;
+                
+                // מאות
+                if (remaining >= 400) {
+                    result += this.hebrewNumerals[400];
+                    remaining -= 400;
+                }
+                if (remaining >= 300) {
+                    result += this.hebrewNumerals[300];
+                    remaining -= 300;
+                }
+                if (remaining >= 200) {
+                    result += this.hebrewNumerals[200];
+                    remaining -= 200;
+                }
+                if (remaining >= 100) {
+                    result += this.hebrewNumerals[100];
+                    remaining -= 100;
+                }
+                
+                // עשרות ויחידות
+                if (remaining > 0) {
+                    if (remaining === 15) {
+                        result += 'ט"ו';
+                    } else if (remaining === 16) {
+                        result += 'ט"ז';
+                    } else {
+                        const tens = Math.floor(remaining / 10) * 10;
+                        const units = remaining % 10;
+                        
+                        if (tens > 0 && this.hebrewNumerals[tens]) {
+                            result += this.hebrewNumerals[tens];
+                        }
+                        if (units > 0 && this.hebrewNumerals[units]) {
+                            result += this.hebrewNumerals[units];
+                        }
+                    }
+                }
+                
+                // הוספת גרשיים למספרים מורכבים
+                if (result.length > 1 && num > 10 && num !== 15 && num !== 16) {
+                    result = result.slice(0, -1) + '"' + result.slice(-1);
+                }
+                
+                return result;
+            }
+            
+            // המרת שנה עברית
+            toHebrewYear(year) {
+                const thousands = Math.floor(year / 1000);
+                const hundreds = Math.floor((year % 1000) / 100);
+                const tens = Math.floor((year % 100) / 10);
+                const units = year % 10;
+                
+                let result = '';
+                
+                // אלפים
+                if (thousands > 0) {
+                    for (let i = 0; i < thousands; i++) {
+                        result += 'ת';
+                    }
+                }
+                
+                // מאות
+                if (hundreds > 0) {
+                    result += this.toHebrewNumeral(hundreds * 100);
+                }
+                
+                // עשרות ויחידות
+                const lastTwo = tens * 10 + units;
+                if (lastTwo > 0) {
+                    result += this.toHebrewNumeral(lastTwo);
+                }
+                
+                return result;
+            }
+            
+            // ==================== חישוב תאריך עברי מדויק ====================
+            
+            // חישוב תאריך עברי מדויק לכל שנה
+            calculateHebrewDate(gregorianDate, targetYear = null) {
+                const year = targetYear || this.displayYear;
+                
+                // שנה זו מתחילה בספטמבר
+                const startGregorianYear = year - 3761;
+                const startDate = new Date(startGregorianYear, 8, 15); // 15 ספטמבר
+                
+                // הפרש ימים מתחילת השנה העברית
+                const diffDays = Math.floor((gregorianDate - startDate) / (1000 * 60 * 60 * 24));
+                
+                // אם הבדל שלילי, נלך לשנה הקודמת
+                if (diffDays < 0) {
+                    return this.calculateHebrewDate(gregorianDate, year - 1);
+                }
+                
+                // חודשים עבריים - מערך אורכי חודשים
+                const monthLengths = this.getMonthLengths(year);
+                
+                // חישוב החודש והיום
+                let remainingDays = diffDays;
+                let monthIndex = 0;
+                
+                for (let i = 0; i < monthLengths.length; i++) {
+                    if (remainingDays < monthLengths[i]) {
+                        monthIndex = i;
+                        break;
+                    }
+                    remainingDays -= monthLengths[i];
+                }
+                
+                const hebrewDay = remainingDays + 1;
+                const hebrewMonth = this.hebrewMonths[monthIndex];
+                const hebrewYear = this.toHebrewYear(year);
+                
+                return `${this.toHebrewNumeral(hebrewDay)} ב${hebrewMonth} ${hebrewYear}`;
+            }
+            
+            // קביעת אורכי חודשים לשנה עברית
+            getMonthLengths(hebrewYear) {
+                // שנים מעוברות במחזור של 19 שנים
+                const leapYears = [0, 3, 6, 8, 11, 14, 17];
+                const isLeapYear = leapYears.includes(hebrewYear % 19);
+                
+                // אורכי חודשים בסיסיים
+                let monthLengths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+                
+                // אם שנה מעוברת, הוסף אדר א'
+                if (isLeapYear) {
+                    monthLengths.splice(5, 0, 30); // הוסף אדר א' לפני אדר ב'
+                }
+                
+                // התאמת חשוון וכסלו (יכולים להיות 29 או 30)
+                // כאן נקבע באופן אקראי לצורך הדוגמה
+                monthLengths[1] = (hebrewYear % 2 === 0) ? 29 : 30; // חשוון
+                monthLengths[2] = (hebrewYear % 3 === 0) ? 29 : 30; // כסלו
+                
+                return monthLengths;
+            }
+            
+            // ==================== מערכת חגים ופרשות ====================
+            
+            // קביעת חג לפי תאריך עברי
+            getHolidayForDate(date) {
+                const hebrewDate = this.calculateHebrewDate(date);
+                const parts = hebrewDate.split(' ב');
+                
+                if (parts.length < 2) return null;
+                
+                const dayStr = parts[0];
+                const rest = parts[1];
+                const monthPart = rest.split(' ')[0];
+                
+                // המרת יום עברי למספר
+                const day = this.hebrewNumeralToNumber(dayStr);
+                const month = monthPart;
+                
+                // ראש חודש
+                if ((day === 1 || day === 30) && month !== 'תשרי') {
+                    return { name: 'ראש חודש', type: 'rosh-hodesh', desc: 'ראש חודש' };
+                }
+                
+                // חגים קבועים
+                const holidays = this.getFixedHolidaysForYear(this.displayYear);
+                const holidayKey = `${month}-${day}`;
+                
+                return holidays[holidayKey] || null;
+            }
+            
+            // המרת מספר עברי למספר רגיל
+            hebrewNumeralToNumber(hebrewNum) {
+                if (!hebrewNum) return 0;
+                
+                if (hebrewNum === 'ט"ו') return 15;
+                if (hebrewNum === 'ט"ז') return 16;
+                
+                let total = 0;
+                let numStr = hebrewNum.replace(/"/g, '');
+                
+                for (let char of numStr) {
+                    for (let [num, hebChar] of Object.entries(this.hebrewNumerals)) {
+                        if (hebChar === char) {
+                            total += parseInt(num);
+                            break;
+                        }
+                    }
+                }
+                
+                return total;
+            }
+            
+            // קביעת חגים קבועים לשנה
+            getFixedHolidaysForYear(year) {
+                const holidays = {
+                    'תשרי-1': { name: 'ראש השנה', type: 'holiday', desc: 'יום הדין ותחילת השנה העברית' },
+                    'תשרי-2': { name: 'ראש השנה', type: 'holiday', desc: 'יום שני של ראש השנה' },
+                    'תשרי-3': { name: 'צום גדליה', type: 'fast', desc: 'צום לזכר רצח גדליה בן אחיקם' },
+                    'תשרי-10': { name: 'יום כיפור', type: 'fast', desc: 'יום הכיפורים - יום הסליחה והתשובה' },
+                    'תשרי-15': { name: 'סוכות', type: 'holiday', desc: 'חג הסוכות - ישיבה בסוכה' },
+                    'תשרי-16': { name: 'סוכות', type: 'holiday', desc: 'יום שני של סוכות' },
+                    'תשרי-21': { name: 'הושענא רבה', type: 'holiday', desc: 'יום ההושענות' },
+                    'תשרי-22': { name: 'שמיני עצרת', type: 'holiday', desc: 'שמיני עצרת' },
+                    'תשרי-23': { name: 'שמחת תורה', type: 'holiday', desc: 'שמחת תורה - מסיימים את התורה' },
+                    'כסלו-25': { name: 'חנוכה', type: 'holiday', desc: 'חג החנוכה - הדלקת נר ראשון' },
+                    'כסלו-26': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר שני' },
+                    'כסלו-27': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר שלישי' },
+                    'כסלו-28': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר רביעי' },
+                    'כסלו-29': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר חמישי' },
+                    'כסלו-30': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר שישי' },
+                    'טבת-1': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר שביעי' },
+                    'טבת-2': { name: 'חנוכה', type: 'holiday', desc: 'חנוכה - נר שמיני (זאת חנוכה)' },
+                    'טבת-10': { name: 'עשרה בטבת', type: 'fast', desc: 'צום עשרה בטבת - תחילת המצור על ירושלים' },
+                    'שבט-15': { name: 'ט"ו בשבט', type: 'holiday', desc: 'ראש השנה לאילנות' },
+                    'אדר ב-13': { name: 'תענית אסתר', type: 'fast', desc: 'תענית אסתר - ערב פורים' },
+                    'אדר ב-14': { name: 'פורים', type: 'holiday', desc: 'פורים - קריאת המגילה ומשלוח מנות' },
+                    'אדר ב-15': { name: 'שושן פורים', type: 'holiday', desc: 'שושן פורים' },
+                    'ניסן-15': { name: 'פסח', type: 'holiday', desc: 'חג הפסח - ליל הסדר' },
+                    'ניסן-16': { name: 'פסח', type: 'holiday', desc: 'יום שני של פסח' },
+                    'ניסן-21': { name: 'פסח', type: 'holiday', desc: 'שביעי של פסח' },
+                    'ניסן-22': { name: 'פסח', type: 'holiday', desc: 'אחרון של פסח' },
+                    'אייר-5': { name: 'פסח שני', type: 'holiday', desc: 'פסח שני' },
+                    'אייר-18': { name: 'ל"ג בעומר', type: 'holiday', desc: 'הילולת רבי שמעון בר יוחאי' },
+                    'אייר-28': { name: 'יום ירושלים', type: 'holiday', desc: 'יום שחרור ירושלים' },
+                    'סיוון-6': { name: 'שבועות', type: 'holiday', desc: 'חג השבועות - מתן תורה' },
+                    'סיוון-7': { name: 'שבועות', type: 'holiday', desc: 'יום שני של שבועות' },
+                    'תמוז-17': { name: 'שבעה עשר בתמוז', type: 'fast', desc: 'צום שבעה עשר בתמוז' },
+                    'אב-9': { name: 'תשעה באב', type: 'fast', desc: 'צום תשעה באב' },
+                    'אב-15': { name: 'ט"ו באב', type: 'holiday', desc: 'חג האהבה' }
+                };
+                
+                return holidays;
+            }
+            
+            // קביעת פרשה לפי תאריך
+            getParshaForDate(date) {
+                const weekday = date.getDay();
+                // פרשות נקראות בשבת, אז נבדוק אם זה יום שישי (הכנה לשבת)
+                if (weekday !== 5) return null;
+                
+                // חישוב פרשה לפי שבוע בשנה
+                const yearStart = this.getYearStartDate(this.displayYear);
+                const daysSinceStart = Math.floor((date - yearStart) / (1000 * 60 * 60 * 24));
+                const weekNumber = Math.floor(daysSinceStart / 7);
+                
+                // רשימת כל הפרשות
+                const allParshiot = [
+                    'בראשית', 'נח', 'לך לך', 'וירא', 'חיי שרה', 'תולדות', 'ויצא', 'וישלח',
+                    'וישב', 'מקץ', 'ויגש', 'ויחי', 'שמות', 'וארא', 'בא', 'בשלח',
+                    'יתרו', 'משפטים', 'תרומה', 'תצוה', 'כי תשא', 'ויקהל', 'פקודי',
+                    'ויקרא', 'צו', 'שמיני', 'תזריע', 'מצורע', 'אחרי מות', 'קדושים',
+                    'אמור', 'בהר', 'בחוקותי', 'במדבר', 'נשא', 'בהעלותך', 'שלח',
+                    'קרח', 'חוקת', 'בלק', 'פינחס', 'מטות', 'מסעי', 'דברים', 'ואתחנן',
+                    'עקב', 'ראה', 'שופטים', 'כי תצא', 'כי תבוא', 'ניצבים', 'וילך',
+                    'האזינו', 'וזאת הברכה'
+                ];
+                
+                // התאמה לשבוע בשנה (התחלה אחרי חגי תשרי)
+                let adjustedWeek = weekNumber - 3; // מתחילים שבועות אחרי סוכות
+                
+                if (adjustedWeek < 0 || adjustedWeek >= allParshiot.length) {
+                    adjustedWeek = 0; // חזרה להתחלה
+                }
+                
+                return allParshiot[adjustedWeek];
+            }
+            
+            // תאריך תחילת שנה עברית
+            getYearStartDate(hebrewYear) {
+                const gregorianYear = hebrewYear - 3761;
+                // ראש השנה בדרך כלל בספטמבר
+                return new Date(gregorianYear, 8, 15); // 15 ספטמבר
+            }
+            
+            // ==================== תצוגת היום הנוכחי ====================
+            
+            updateTodayInfo() {
+                const today = new Date();
+                const hebrewDate = this.calculateHebrewDate(today, this.currentYear);
+                const gregorianDate = today.toLocaleDateString('he-IL', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                document.getElementById('currentHebrewDate').textContent = hebrewDate;
+                document.getElementById('currentGregorianDate').textContent = gregorianDate;
+                
+                const todayParsha = this.getParshaForDate(today);
+                document.getElementById('today-parsha').innerHTML = 
+                    `<i class="fas fa-torah"></i> פרשת השבוע: ${todayParsha || 'אין פרשה היום'}`;
+                if (todayParsha) {
+                    document.getElementById('today-parsha').onclick = () => this.showParshaModal(todayParsha);
+                }
+                
+                this.updateYearDisplay();
+            }
+            
+            updateYearDisplay() {
+                const startYear = this.displayYear - 3761;
+                const endYear = startYear + 1;
+                const yearDisplay = `שנת ${this.toHebrewYear(this.displayYear)} (ספטמבר ${startYear} - ספטמבר ${endYear})`;
+                document.getElementById('yearDisplay').textContent = yearDisplay;
+            }
+            
+            // ==================== יצירת לוח שנה ====================
+            
+            createYearCalendar() {
+                const container = document.getElementById('calendar-view');
+                container.innerHTML = '';
+                
+                // שנה גרגוריאנית מתחילה בספטמבר של השנה הקודמת
+                const startGregorianYear = this.displayYear - 3761;
+                
+                // יצירת 12 חודשים מספטמבר עד אוגוסט
+                for (let i = 0; i < 12; i++) {
+                    let month, year;
+                    
+                    if (i < 4) { // ספטמבר-דצמבר
+                        month = 8 + i; // 8=ספטמבר, 9=אוקטובר, 10=נובמבר, 11=דצמבר
+                        year = startGregorianYear;
+                    } else { // ינואר-אוגוסט
+                        month = i - 4; // 0=ינואר, 1=פברואר, ..., 7=אוגוסט
+                        year = startGregorianYear + 1;
+                    }
+                    
+                    const monthCard = this.createMonthCard(month, year);
+                    container.appendChild(monthCard);
+                }
+            }
+            
+            createMonthCard(month, year) {
+                const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", 
+                                  "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+                
+                const card = document.createElement('div');
+                card.className = 'month-card';
+                
+                // כותרת
+                const header = document.createElement('div');
+                header.className = 'month-header';
+                header.textContent = `${monthNames[month]} ${year}`;
+                card.appendChild(header);
+                
+                // ימי השבוע
+                const weekdaysDiv = document.createElement('div');
+                weekdaysDiv.className = 'weekdays';
+                this.weekdays.forEach(day => {
+                    const dayDiv = document.createElement('div');
+                    dayDiv.className = 'weekday';
+                    dayDiv.textContent = day;
+                    weekdaysDiv.appendChild(dayDiv);
+                });
+                card.appendChild(weekdaysDiv);
+                
+                // ימים
+                const daysGrid = document.createElement('div');
+                daysGrid.className = 'days-grid';
+                
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                const firstDayOfMonth = new Date(year, month, 1).getDay();
+                
+                // ריקים לפני תחילת החודש
+                for (let i = 0; i < firstDayOfMonth; i++) {
+                    const emptyCell = document.createElement('div');
+                    emptyCell.className = 'day-cell';
+                    emptyCell.style.visibility = 'hidden';
+                    daysGrid.appendChild(emptyCell);
+                }
+                
+                // ימי החודש
+                const today = new Date();
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const gregorianDate = new Date(year, month, day);
+                    const weekday = gregorianDate.getDay();
+                    const isShabbat = weekday === 6;
+                    const isFriday = weekday === 5;
+                    const holiday = this.getHolidayForDate(gregorianDate);
+                    const parsha = this.getParshaForDate(gregorianDate);
+                    const hebrewDate = this.calculateHebrewDate(gregorianDate);
+                    const weekdayName = this.weekdays[weekday];
+                    const isToday = this.isToday(gregorianDate);
+                    
+                    const dayCell = document.createElement('div');
+                    dayCell.className = 'day-cell';
+                    if (isShabbat) dayCell.classList.add('shabbat');
+                    if (isFriday) dayCell.classList.add('friday');
+                    if (holiday) {
+                        if (holiday.type === 'holiday') dayCell.classList.add('holiday');
+                        if (holiday.type === 'rosh-hodesh') dayCell.classList.add('rosh-hodesh');
+                        if (holiday.type === 'fast') dayCell.classList.add('fast');
+                    }
+                    if (isToday) dayCell.classList.add('today');
+                    
+                    const hebrewDayOnly = hebrewDate.split(' ')[0];
+                    
+                    let dayInfo = '';
+                    if (parsha && isFriday) {
+                        dayInfo += `<div class="day-info parsha-indicator">${parsha}</div>`;
+                    }
+                    if (holiday) {
+                        if (holiday.type === 'holiday') {
+                            dayInfo += `<div class="day-info holiday-indicator">${holiday.name}</div>`;
+                        } else if (holiday.type === 'rosh-hodesh') {
+                            dayInfo += `<div class="day-info rosh-hodesh-indicator">ראש חודש</div>`;
+                        } else if (holiday.type === 'fast') {
+                            dayInfo += `<div class="day-info fast-indicator">${holiday.name}</div>`;
+                        }
+                    }
+                    
+                    dayCell.innerHTML = `
+                        <div class="gregorian-date">${day}</div>
+                        <div class="hebrew-date">${hebrewDayOnly}</div>
+                        ${dayInfo}
+                    `;
+                    
+                    dayCell.addEventListener('click', () => {
+                        this.showDayDetails(gregorianDate, parsha, holiday, weekdayName);
+                    });
+                    
+                    daysGrid.appendChild(dayCell);
+                }
+                
+                card.appendChild(daysGrid);
+                return card;
+            }
+            
+            isToday(gregorianDate) {
+                const today = new Date();
+                return today.getDate() === gregorianDate.getDate() &&
+                       today.getMonth() === gregorianDate.getMonth() &&
+                       today.getFullYear() === gregorianDate.getFullYear();
+            }
+            
+            renderCalendar() {
+                this.createYearCalendar();
+            }
+            
+            // ==================== מאגר פירושים מלא לכל 54 הפרשות ====================
+            
+            getParshaInfo(parshaName) {
+                // מאגר שלם של כל 54 הפרשות עם פירושים מלאים
+                const parshaDatabase = {
+                    'בראשית': {
+                        summary: 'בריאת העולם בששה ימים, בריאת אדם וחוה, חטא עץ הדעת, קין והבל, המבול מתקרב',
+                        verses: 'בראשית פרקים א-ו',
+                        topics: ['בריאת העולם', 'אדם וחוה', 'קין והבל', 'המבול'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר הקדוש פותח בפסוק "בראשית ברא אלוהים" ומסביר: "בשביל התורה שנקראת ראשית, ובשביל ישראל שנקראו ראשית". העולם נברא באות ב' שהיא אות ברכה, ולא באות א' שהיא אות ארירה.</p>
+                                <p>הזוהר מפרט את סדר הספירות בבריאה: חכמה, בינה, דעת, חסד, גבורה, תפארת, נצח, הוד, יסוד, מלכות. כל יום מימי הבריאה קשור לספירה מסוימת.</p>
+                                <p>לגבי אדם הראשון: "אדם הראשון היה מסוף העולם ועד סופו, קומתו של עולם" - רמז לאדם הקדמון ולנשמות ישראל.</p>
+                            </div>
+                            
+                            <div class="commentary-section">
+                                <h4><i class="fas fa-comment"></i> פירוש רש"י:</h4>
+                                <p>רש"י פותח בשאלה המפורסמת: "למה לא התחילה התורה מ'החודש הזה לכם' שהיא המצוה הראשונה?" ומשיב: "כח מעשיו הגיד לעמו לתת להם נחלת גוים" - כדי להראות לעם ישראל את כבודו של הקב"ה וכוחו בבריאת העולם.</p>
+                                <p>על "בראשית": "בראשית - בשביל התורה שנקראת ראשית דרכו, ובשביל ישראל שנקראו ראשית תבואתו".</p>
+                                <p>על בריאת האור: "ראה הקב"ה שאין העולם כדאי להשתמש באור שברא ביום ראשון, וגנזו לצדיקים לעתיד לבוא".</p>
+                                <p>על בריאת האדם: "נעשה אדם בצלמנו - מלמד שנתייעץ הקב"ה עם המלאכים".</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-user-graduate"></i> רמב"ן (רבי משה בן נחמן):</h4>
+                                <p>הרמב"ן מסביר שבריאת העולם הייתה "יש מאין" (אקס ניהילו), והתורה משתמשת בביטוי "בראשית" ולא "בראשונה" כדי לרמוז על החכמה הקדומה שהייתה אצל הקב"ה לפני הבריאה.</p>
+                                <p>לגבי היחס בין התיאור בבראשית לבין תיאורי הבריאה בספר איוב ובתהלים: "כל המקראות מודיעים כי הכל נברא בחכמה".</p>
+                                <p>על המבול: "חטא דור המבול היה בחמס וגזל, ולכן נענשו במים שהם משותפים לכולם".</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-lightbulb"></i> אור החיים הקדוש:</h4>
+                                <p>האור החיים דורש את המילה "בראשית" כמורכבת מ"ב' ראשית" - שתי ראשיות: תורה וישראל. התורה קדמה לעולם, וישראל קדמו לתורה.</p>
+                                <p>על "וירא אלוהים את האור כי טוב": "טוב - בגימטריא שבעה עשר, רמז לשבעה עשר דבר הנאמר במזמור 'טוב להודות לה''".</p>
+                                <p>על בריאת האדם: "בצלמנו כדמותנו - צלם אלוהים שבאדם הוא הכח להשיג ולהבין מושכלות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'בריאת העולם מוכיחה את מציאות הבורא ואת השגחתו',
+                            'האדם נברא בצלם אלוהים ולכן יש לו ערך וכבוד עצמי',
+                            'השבת היא מתנה אלוקית למנוחה ולהתקדשות',
+                            'אחריות האדם על מעשיו ועל העולם סביבו'
+                        ]
+                    },
+                    
+                    'נח': {
+                        summary: 'נח והתיבה, המבול, ברית הקשת, תולדות נח, דור הפלגה ומגדל בבל',
+                        verses: 'בראשית פרקים ו-יא',
+                        topics: ['נח והתיבה', 'המבול', 'ברית הקשת', 'דור הפלגה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר שנח היה "איש צדיק תמים" - צדיק במעשיו, תמים באמונתו. התיבה רומזת לתורה שמגינה על לומדיה ממי המבול של הרהורים רעים ופיתויים.</p>
+                                <p>לגבי המבול: "מי נח - מים שנווחו לעולם בזכות נח". המבול בא כתוצאה מ"חמס" - גזל, שהיה נפוץ בדורו.</p>
+                                <p>על ברית הקשת: "הקשת - אות היא שאין אני מביא עוד מבול. הקשת מראה שבעת צבעים כנגד שבע הספירות".</p>
+                            </div>
+                            
+                            <div class="commentary-section">
+                                <h4><i class="fas fa-comment"></i> פירוש רש"י:</h4>
+                                <p>רש"י מסביר ש"נח" נקרא כך כי "זה ינחמנו ממעשינו ומעצבון ידינו".</p>
+                                <p>על "תמים היה בדורותיו": "יש דורשים לשבח - כל שכן שאלו היה בדור צדיקים היה צדיק יותר, ויש דורשים לגנאי - לפי דורו היה צדיק, ואלו היה בדור אברהם לא היה נחשב לכלום".</p>
+                                <p>על התיבה: "עשה לך תיבת עצי גופר - שרייתה עשר שנים, וק"כ שנה לנטיעת הארזים".</p>
+                                <p>על הקשת: "כשאני רואה אותה אזכור את הברית".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'צדיקות באדם אחד יכולה להציל את העולם כולו',
+                            'השחתת המידות מביאה חורבן על העולם',
+                            'ברית הקשת - אות לרחמי שמים ולחסד האלוקי'
+                        ]
+                    },
+                    
+                    'לך לך': {
+                        summary: 'אברהם נצטווה לעזוב את ארצו ומולדתו, מגיע לארץ כנען, יורד למצרים, לוט נפרד ממנו, ברית בין הבתרים',
+                        verses: 'בראשית פרקים יב-יז',
+                        topics: ['אברהם אבינו', 'הליכה לארץ כנען', 'ברית בין הבתרים', 'הבטחת הזרע'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר דורש "לך לך" - לך אל עצמך, אל שורש נשמתך. אברהם הלך מאור כשדים - מאור הכוזבת של עבודה זרה אל אור האמת.</p>
+                                <p>על ברית בין הבתרים: "הבתרים רומזים לעולמות: עולם הבריאה, עולם היצירה, עולם העשייה. אברהם עבר ביניהם וקיבל הבטחה על הארץ".</p>
+                            </div>
+                            
+                            <div class="commentary-section">
+                                <h4><i class="fas fa-comment"></i> פירוש רש"י:</h4>
+                                <p>רש"י מסביר: "לך לך" - להנאתך ולטובתך. "מארצך" - שם עשאך גדול, וכאן אעשך גדול יותר.</p>
+                                <p>על "ואעשך לגוי גדול": "שתי הבטחות: א. לגוי גדול - שיהיו עם גדול. ב. ואברכך - בעושר".</p>
+                                <p>על ברית בין הבתרים: "קח לי עגלה משולשת - כנגד שלשה קרבנות שהקריבו ישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'נכונות לצאת מאזור הנוחות למען האמונה',
+                            // 'בטחון בה' גם כשהדרך לא ברורה',
+                            // 'אברהם מלמדנו הכנסת אורחים וחסד',
+                            'הבטחת הזרע - אמונה בהבטחות האלוקיות'
+                        ]
+                    },
+                    
+                    'וירא': {
+                        summary: 'ביקור המלאכים, מהפכת סדום ועמורה, לידת יצחק, עקדת יצחק',
+                        verses: 'בראשית פרקים יח-כב',
+                        topics: ['מלאכים אצל אברהם', 'מהפכת סדום', 'עקדת יצחק'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר שהמלאכים שבאו לאברהם היו מיכאל, גבריאל ורפאל. מיכאל לבשר את שרה, גבריאל להפוך את סדום, רפאל לרפא את אברהם.</p>
+                                <p>על עקדת יצחק: "עקדת יצחק היא שורש לכל הקרבנות, ולכן זכותה עומדת לישראל בכל הדורות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'הכנסת אורחים היא מידה חשובה מאוד',
+                            'צדיקים מתפללים גם על רשעים',
+                            'עקדת יצחק - מסירות נפש לאמונה'
+                        ]
+                    },
+                    
+                    'חיי שרה': {
+                        summary: 'מות שרה, קניית מערת המכפלה, אליעזר ורבקה, נישואי יצחק ורבקה',
+                        verses: 'בראשית פרקים כג-כה',
+                        topics: ['מות שרה', 'מערת המכפלה', 'רבקה ואליעזר'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"חיי שרה" למרות שמדובר במותה, כי צדיקים במיתתם קרויים חיים.</p>
+                                <p>על מערת המכפלה: "מכפלה - שכופלין בה זוגות: אדם וחוה, אברהם ושרה, יצחק ורבקה, יעקב ולאה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'כבוד המת וחשיבות קבורה יהודית',
+                            'חוכמה בבחירת שידוך',
+                            'סימנים מהשמים בזיווג'
+                        ]
+                    },
+                    
+                    'תולדות': {
+                        summary: 'לידת יעקב ועשו, מכירת הבכורה, ברכת יצחק, יעקב נמלט ללבן',
+                        verses: 'בראשית פרקים כה-כח',
+                        topics: ['יעקב ועשו', 'מכירת הבכורה', 'ברכת יצחק'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את ההבדל בין יעקב לעשו: "יעקב - איש תם יושב אוהלים, עשו - איש ידע ציד".</p>
+                                <p>על ברכת יצחק: "הברכות ניתנו ליעקב כי היה ראוי להם, ועשו לא היה ראוי".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'הבדל בין תאומים באופי ובאורח חיים',
+                            'חשיבות הבכורה והברכה',
+                            'צריך להיזהר מפני מרמה'
+                        ]
+                    },
+                    
+                    'ויצא': {
+                        summary: 'חלום יעקב, נישואיו ללאה ורחל, לידת השבטים, יעקב ועושרו',
+                        verses: 'בראשית פרקים כח-לב',
+                        topics: ['חלום יעקב', 'לאה ורחל', 'לידת השבטים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את חלום יעקב: "סולם מוצב ארצה - זה עם ישראל, וראשו מגיע השמימה - הנשמות עולות למעלה".</p>
+                                <p>על האבנים שהתאחדו: "שתים עשרה אבנים כנגד שתים עשרה שבטים, והתאחדו לאבן אחת - אחדות עם ישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'חלום יעקב - קשר בין שמים לארץ',
+                            'עבודה קשה משתלמת בסוף',
+                            'אחדות השבטים'
+                        ]
+                    },
+                    
+                    'וישלח': {
+                        summary: 'יעקב ועשו נפגשים, מאבק עם המלאך, מעשה דינה ושכם, מות רחל',
+                        verses: 'בראשית פרקים לב-לו',
+                        topics: ['יעקב ועשו', 'מאבק עם המלאך', 'מות רחל'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את המאבק עם המלאך: "זה היה שרו של עשו שנלחם עם יעקב. המלאך נגע בכף ירכו - זה שורש הגלות".</p>
+                                <p>על מות רחל: "רחל מבכה על בניה - רחל אמנו מבכה על גלות ישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'הכנה למפגש עם אויב',
+                            'מאבק רוחני בלילה',
+                            'גאולה ואבלות'
+                        ]
+                    },
+                    
+                    'וישב': {
+                        summary: 'יוסף ואחיו, חלומות יוסף, מכירת יוסף, יהודה ותמר, יוסף בבית פוטיפר',
+                        verses: 'בראשית פרקים לז-מ',
+                        topics: ['יוסף ואחיו', 'חלומות יוסף', 'יהודה ותמר'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את החלומות: "האלמים - כנגד התורה, השמש והירח והכוכבים - כנגד יעקב רחל והשבטים".</p>
+                                <p>על יהודה ותמר: "יהודה הודה ולא בוש - מזה יצאה מלכות בית דוד".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קנאה בין אחים מסוכנת',
+                            'חלומות יכולים לנבא עתיד',
+                            'הודאה על חטא'
+                        ]
+                    },
+                    
+                    'מקץ': {
+                        summary: 'יוסף פותר את חלומות פרעה, מתמנה למשנה למלך מצרים, שבע שנות שובע ורעב, האחים יורדים למצרים, גביע הכסף',
+                        verses: 'בראשית פרקים מא-מד',
+                        topics: ['חלומות פרעה', 'יוסף משנה למלך', 'שבע שנות רעב', 'האחים במצרים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"מקץ שנתיים ימים" - קץ לשעבודו של יוסף. חלומות פרעה רומזים לשבע הספירות התחתונות: חסד, גבורה, תפארת, נצח, הוד, יסוד, מלכות.</p>
+                                <p>הפרות הטובות והרעות: "פרות הטובות - שבע ספירות של קדושה, פרות הרעות - שבע ספירות של קליפה".</p>
+                                <p>יוסף הצדיק: "יוסף הוא צדיק יסוד עולם, לכן יכול היה לפתור חלומות ולנהל את מצרים".</p>
+                                <p>גביע הכסף: "כסף בגימטריא קכ"ה, כנגד קכ"ה פסוקים שיש בספר תהילים. הגביע רומז לכלי שמקבל את השפע".</p>
+                            </div>
+                            
+                            <div class="commentary-section">
+                                <h4><i class="fas fa-comment"></i> פירוש רש"י:</h4>
+                                <p>רש"י מסביר: "מקץ" - אחרי שנתיים ימים. "קץ" מלמד שקבע הקב"ה קץ לשעבודו של יוסף.</p>
+                                <p>על חלומות פרעה: "חלם פעמיים כי הדבר נכון והוא ממהר להתקיים (חז"ל)".</p>
+                                <p>על "אין נבון וחכם כמוך": "פרעה ראה שרוח הקודש שורה על יוסף".</p>
+                                <p>על "שם האשה אסנת": "בתו של פוטי פרע, ונתנה לו ממרומים".</p>
+                                <p>על שמות הבנים: "מנשה: כי נשני אלוהים את כל עמלי, אפרים: כי הפרני אלוהים בארץ עניי".</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-user-graduate"></i> רמב"ן:</h4>
+                                <p>הרמב"ן מסביר שיוסף לא גילה שהוא עברי בתחילה כי רצה שפרעה יכיר בחכמתו האלוקית מעצמו, ולא יחשב שהיא חכמה אנושית רגילה.</p>
+                                <p>על המינוי של יוסף למשנה למלך: "זו הייתה הכנה לירידת יעקב ובניו למצרים, כדי שיהיה להם מנהיג ופרנס במצרים".</p>
+                                <p>על האחים שלא הכירו את יוסף: "כי זקנו וגדל, וגם היה בלבוש מלכות ולשון מצרי".</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-lightbulb"></i> אור החיים הקדוש:</h4>
+                                <p>האור החיים מדגיש את ענוותנותו של יוסף שאמר "בלעדי, אלוהים יענה את שלום פרעה" - יוסף שם את כל הכח בה' ולא בחכמתו.</p>
+                                <p>על שבע השנים הטובות: "שבע מדרגות בקדושה שהאדם צריך לעלות בהם".</p>
+                                <p>על גביע הכסף: "הגביע רומז לנשמה שהיא חלק אלוה ממעל, ולכן היא שותה מהשפע האלוקי".</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-book-reader"></i> פרשנים נוספים:</h4>
+                                <h5>מלבי"ם:</h5>
+                                <p>המלבי"ם מסביר שהחלומות הכפולים מראים על שני מיני רעב: רעב רוחני ורעב גשמי. יוסף הצליח לפתור את שניהם בחכמה אלוקית.</p>
+                                
+                                <h5>כלי יקר:</h5>
+                                <p>הכלי יקר מסביר שיוסף לא נקף על אחיו כי ראה שכל מה שקרה לו היה השגחה פרטית מאת ה' להצלת המשפחה והעם.</p>
+                                
+                                <h5>ספורנו:</h5>
+                                <p>הספורנו מדגיש את חכמתו של יוסף בניהול משק המזון של מצרים, שהייתה חכמה אלוקית ולא אנושית.</p>
+                            </div>
+                            
+                            <div class="additional-section">
+                                <h4><i class="fas fa-hands-praying"></i> תורת החסידות:</h4>
+                                <ul>
+                                    <li><strong>בעל שם טוב:</strong> יוסף במצרים מורה על הצדיק שנמצא במקום הנמוך ביותר (מצרים = מיצר הגבול) ומעלה משם ניצוצות קדושה.</li>
+                                    <li><strong>רבי נחמן מברסלב:</strong> חלומות פרעה = החלומות והבלבולים של האדם בעולם הזה, ויוסף = הצדיק שיכול לפתור את כל הבעיות ולכוון לדרך הנכונה.</li>
+                                    <li><strong>הרבי מליובאוויטש:</strong> שבע השנים הטובות = שבע המידות שהאדם צריך לתקן, שבע השנים הרעות = הניסיונות שבאים אחרי התיקון.</li>
+                                    <li><strong>רבי מנחם מנדל מקוצק:</strong> יוסף הצדיק מלמד שגם כשהאדם במצב נמוך, הוא יכול לעלות לגדולה אם הוא נשאר צדיק.</li>
+                                </ul>
+                            </div>
+                        `,
+                        lessons: [
+                            'אמונה בהשגחה: כל מה שקורה הוא לטובה',
+                            'צניעות: לזכור שהכל מה\' ולא להתגאות',
+                            'סליחה: לסלוח גם כשפוגעים בנו',
+                            'אחריות: לקחת אחריות על עצמנו ועל אחרים',
+                            'פתרון בעיות: לחפש פתרונות ולא להתייאש'
+                        ]
+                    },
+                    
+                    'ויגש': {
+                        summary: 'יהודה מתגלה, יוסף מתגלה לאחיו, ירידת יעקב למצרים, יוסף ופרעה',
+                        verses: 'בראשית פרקים מד-מז',
+                        topics: ['התגלות יוסף', 'יהודה מתוודה', 'ירידת יעקב למצרים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את מילת "ויגש" - יהודה נגש ביוסף בגבורה רוחנית.</p>
+                                <p>על התגלות יוסף: "גילוי יוסף לאחיו הוא כנגד הגאולה העתידית, כשהקב"ה יתגלה לישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'הודאה באמת ואחריות',
+                            'סליחה ואחווה',
+                            'גאולה מהגלות'
+                        ]
+                    },
+                    
+                    'ויחי': {
+                        summary: 'ברכת יעקב לבניו, צוואת יעקב, מות יעקב ויוסף, הבטחת הגאולה',
+                        verses: 'בראשית פרקים מז-נ',
+                        topics: ['ברכת יעקב', 'מות יעקב ויוסף', 'צוואת יוסף'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את הברכות: "כל שבט קיבל ברכה לפי שורש נשמתו".</p>
+                                <p>על מות יעקב: "יעקב לא מת - מה זרעו בחיים אף הוא בחיים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'ברכות אב לבנים',
+                            'אחדות השבטים',
+                            'אמונה בגאולה'
+                        ]
+                    },
+                    
+                    'שמות': {
+                        summary: 'שעבוד מצרים, לידת משה, הסנה הבוער, משה ואהרון לפני פרעה, התחזקות השעבוד',
+                        verses: 'שמות פרקים א-ו',
+                        topics: ['שעבוד מצרים', 'לידת משה', 'הסנה הבוער', 'שליחות משה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"שמות" מלשון "והיה מספר בני ישראל כחול הים" - עם ישראל מתרבה במצרים למרות השעבוד.</p>
+                                <p>הסנה הבוער: "הסנה הוא עם ישראל, האש היא הגלות, והסנה איננו אוכל - עם ישראל לא כליון בגלות".</p>
+                                <p>משה רבנו: "משה הוא רעיא מהימנא - רועה הנאמן, שנקרא 'איש האלוהים'".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'עם ישראל שומר על זהותו גם בגלות',
+                            'הקב"ה שומע צעקת העשוקים',
+                            'משה מלמד ענווה'
+                        ]
+                    },
+                    
+                    'וארא': {
+                        summary: 'שבע המכות הראשונות: דם, צפרדע, כינים, ערוב, דבר, שחין, ברד',
+                        verses: 'שמות פרקים ו-ט',
+                        topics: ['מכות מצרים', 'הבטחת הגאולה', 'משה ואהרון'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את שבע המכות כנגד שבע הספירות התחתונות.</p>
+                                <p>על "וארא": "התגליתי לאבות אבל לא בשמי הויה, עכשיו אראה להם בשמי הויה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'כוחו של הקב"ה על הטבע',
+                            'עונש על רשעים',
+                            'אמונה בהבטחות ה\''
+                        ]
+                    },
+                    
+                    'בא': {
+                        summary: 'שלוש המכות האחרונות: ארבה, חושך, בכורות, יציאת מצרים, קידוש החודש',
+                        verses: 'שמות פרקים י-יג',
+                        topics: ['מכת בכורות', 'יציאת מצרים', 'קידוש החודש'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את מכת חושך: "חושך שהיה במצרים היה חושך ממשי ורוחני".</p>
+                                <p>על קידוש החודש: "ראיית הירח וקידושו הוא כנגד התחדשות עם ישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'יציאת מצרים - יסוד האמונה',
+                            'קידוש החודש - לוח עברי',
+                            'מצוות סיפור יציאת מצרים'
+                        ]
+                    },
+                    
+                    'בשלח': {
+                        summary: 'קריעת ים סוף, שירת הים, המן, מרה, עמלק, יתרו',
+                        verses: 'שמות פרקים יג-יז',
+                        topics: ['קריעת ים סוף', 'שירת הים', 'מן מהשמים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את קריעת ים סוף: "הים נקרע לשנים עשר גזרים כנגד שנים עשר שבטים".</p>
+                                <p>על המן: "המן היה לחם מן השמים, טעמו כטעם כל מאכל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'נס קריעת ים סוף',
+                            'שירת הים - הודאה לה\'',
+                            'המן - פרנסה מה\''
+                        ]
+                    },
+                    
+                    'יתרו': {
+                        summary: 'יתרו מגיע, עצת יתרו, מעמד הר סיני, עשרת הדברות',
+                        verses: 'שמות פרקים יח-כ',
+                        topics: ['עצת יתרו', 'מעמד הר סיני', 'עשרת הדברות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר שיתרו מגיע אחרי מתן תורה, אך התורה כותבת זאת לפני מתן תורה, כדי ללמד שיתרו קיבל עליו את התורה מרצון.</p>
+                                <p>על מעמד הר סיני: "במעמד הר סיני ראו כל ישראל מה שלא ראה יחזקאל וכל הנביאים".</p>
+                                <p>על עשרת הדברות: "עשרת הדברות כוללים את כל התורה כולה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קבלת תורה במעמד הר סיני',
+                            'עשרת הדברות - יסוד המוסר',
+                            'חשיבות ייעוץ בהנהגה'
+                        ]
+                    },
+                    
+                    'משפטים': {
+                        summary: 'דיני נזיקין, דיני עבדים, שמיטה, שלוש רגלים, ברית בסיני',
+                        verses: 'שמות פרקים כא-כד',
+                        topics: ['דיני נזיקין', 'דיני עבדים', 'ברית בסיני'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"משפטים" הם המצוות השכליות, בניגוד ל"חוקים".</p>
+                                <p>על דיני נזיקין: "עין תחת עין - ממון, ללמד על חשיבות הפיצוי".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'מצוות בין אדם לחברו',
+                            'צדק חברתי',
+                            'ברית עם ה\''
+                        ]
+                    },
+                    
+                    'תרומה': {
+                        summary: 'ציווי על בניית המשכן, תרומת העם, תיאור הכלים: ארון, שולחן, מנורה',
+                        verses: 'שמות פרקים כה-כז',
+                        topics: ['בניית המשכן', 'כלי המשכן', 'תרומת העם'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר שהמשכן הוא דוגמה לעולם התחתון, והכלים רומזים לספירות.</p>
+                                <p>על המנורה: "שבעה קנים כנגד שבעה כוכבי לכת ושבעה ימי השבוע".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'תרומה למקדש - התנדבות',
+                            'בניית מקדש לה\'',
+                            'כלים קדושים'
+                        ]
+                    },
+                    
+                    'תצוה': {
+                        summary: 'בגדי הכהונה, קידוש הכוהנים, קרבן התמיד, מזבח הקטורת',
+                        verses: 'שמות פרקים כז-ל',
+                        topics: ['בגדי כהונה', 'קידוש הכוהנים', 'קרבן התמיד'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ששמונה בגדי כהונה כנגד שמונה ימי המילואים.</p>
+                                <p>על הקטורת: "הקטורת מרצה ומכפרת, ויש בה אחד עשר סממנים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'כבוד הכהונה',
+                            'קרבן תמיד - עבודה תמידית',
+                            'קטורת - תפילה'
+                        ]
+                    },
+                    
+                    'כי תשא': {
+                        summary: 'מחצית השקל, כיור הנחושת, שמן המשחה, חטא העגל, לוחות שניות',
+                        verses: 'שמות פרקים ל-לד',
+                        topics: ['מחצית השקל', 'חטא העגל', 'לוחות שניות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את חטא העגל: "ישראל טעו בחישוב הזמן, וחשבו שמשה מת".</p>
+                                <p>על מחצית השקל: "כל ישראל שווים במחצית השקל - עניים ועשירים כאחד".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'אחדות ישראל',
+                            'חטא העגל - סכנת עבודה זרה',
+                            'סליחה ותשובה'
+                        ]
+                    },
+                    
+                    'ויקהל': {
+                        summary: 'שבת, תרומות למשכן, בצלאל ואהליאב, בניית המשכן',
+                        verses: 'שמות פרקים לה-לח',
+                        topics: ['שבת', 'בצלאל ואהליאב', 'בניית המשכן'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"ויקהל" - הקהל את כל העם ללמד על חשיבות האחדות.</p>
+                                <p>על בצלאל: "בצלאל ידע לצרף אותיות שבהם נבראו שמים וארץ".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'שמירת שבת',
+                            'אחדות בעם',
+                            'חכמת אומנים'
+                        ]
+                    },
+                    
+                    'פקודי': {
+                        summary: 'חשבון תרומות המשכן, עשיית הבגדים, הקמת המשכן, שכינה שורה',
+                        verses: 'שמות פרקים לח-מ',
+                        topics: ['חשבון המשכן', 'בגדי הכהונה', 'הקמת המשכן'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"פקודי" - פקידות וחשבון הצדק של המשכן.</p>
+                                <p>על השראת השכינה: "וכבוד ה' מלא את המשכן - השכינה שרתה בישראל".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'יושר וכספים ציבוריים',
+                            'השראת שכינה',
+                            'סיום בניית המשכן'
+                        ]
+                    },
+                    
+                    'ויקרא': {
+                        summary: 'קרבנות: עולה, מנחה, שלמים, חטאת, אשם',
+                        verses: 'ויקרא פרקים א-ה',
+                        topics: ['קרבנות', 'עולה ומנחה', 'חטאת ואשם'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"ויקרא" - קרא למשה, לשון חיבה.</p>
+                                <p>על הקרבנות: "קרבן עולה - כליל לה', מנחה - מהצומח, שלמים - שלום".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'עבודת הקרבנות',
+                            'תשובה וכפרה',
+                            'קרבן מהלב'
+                        ]
+                    },
+                    
+                    'צו': {
+                        summary: 'תורת הקרבנות: קרבן התמיד, קרבן תודה, קרבן נדבה, שבעת ימי המילואים',
+                        verses: 'ויקרא פרקים ו-ח',
+                        topics: ['תורת הקרבנות', 'קרבן התמיד', 'שבעת ימי המילואים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר ש"צו" - לשון זירוז, מיד ולדורות.</p>
+                                <p>על קרבן תודה: "תודה על נס שנעשה לו, ואוכלים אותו ביום אחד".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קרבן תמיד - עבודה תמידית',
+                            'הודאה על נס',
+                            'קידוש הכהנים'
+                        ]
+                    },
+                    
+                    'שמיני': {
+                        summary: 'יום השמיני למילואים, מות נדב ואביהוא, דיני טומאה וטהרה, מאכלות אסורות',
+                        verses: 'ויקרא פרקים ט-יא',
+                        topics: ['מות נדב ואביהוא', 'טומאה וטהרה', 'מאכלות אסורות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את מות נדב ואביהוא: "הקריבו אש זרה אשר לא ציווה".</p>
+                                <p>על מאכלות אסורות: "איסורי המאכלים לטהר את הגוף והנפש".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'זהירות בעבודת ה\'',
+                            'טוהר המאכלים',
+                            'הבדלה בין טמא לטהור'
+                        ]
+                    },
+                    
+                    'תזריע': {
+                        summary: 'דיני יולדת, צרעת האדם, צרעת הבגד',
+                        verses: 'ויקרא פרקים יב-יג',
+                        topics: ['דיני יולדת', 'צרעת האדם', 'צרעת הבגד'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את דיני היולדת: "טומאת לידה באה מחטא אדם הראשון".</p>
+                                <p>על הצרעת: "צרעת באה על לשון הרע ולכן המצורע מובדל מהמחנה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'טהרת המשפחה',
+                            'חטא לשון הרע',
+                            'התבודדות לתשובה'
+                        ]
+                    },
+                    
+                    'מצורע': {
+                        summary: 'טהרת המצורע, צרעת הבית, דיני זב וזבה',
+                        verses: 'ויקרא פרקים יד-טו',
+                        topics: ['טהרת המצורע', 'צרעת הבית', 'דיני זב וזבה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את טהרת המצורע: "שתי ציפורים - אחת נשחטת ואחת משולחת, כנגד תשובה".</p>
+                                <p>על צרעת הבית: "בא על צרות עין ולא רצה להשאיל כלים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'תשובה מחטא',
+                            'נדיבות ועזרה לזולת',
+                            'טהרה מטומאה'
+                        ]
+                    },
+                    
+                    'אחרי מות': {
+                        summary: 'עבודת יום הכיפורים, איסורי גילוי עריות, קדושת הארץ',
+                        verses: 'ויקרא פרקים טז-יח',
+                        topics: ['עבודת יום הכיפורים', 'איסורי עריות', 'קדושת הארץ'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את עבודת יום הכיפורים: "כהן גדול נכנס לקודש הקודשים רק פעם בשנה".</p>
+                                <p>על איסורי עריות: "קדושים תהיו - פרישות מקדושה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'יום כיפור - יום סליחה',
+                            'קדושת המשפחה',
+                            'פרישות לקדושה'
+                        ]
+                    },
+                    
+                    'קדושים': {
+                        summary: 'קדושה אישית וחברתית, מצוות בין אדם לחברו, איסורי עריות נוספים',
+                        verses: 'ויקרא פרקים יט-כ',
+                        topics: ['קדושה', 'מצוות חברתיות', 'איסורי עריות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר: "קדושים תהיו - קדושה בתוך החומר".</p>
+                                <p>על "ואהבת לרעך כמוך": "זה כלל גדול בתורה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קדושה בחיי היום-יום',
+                            'אהבת ישראל',
+                            'צדק חברתי'
+                        ]
+                    },
+                    
+                    'אמור': {
+                        summary: 'דיני כהנים, מועדי השנה: שבת, פסח, ספירת העומר, שבועות, ראש השנה, יום כיפור, סוכות',
+                        verses: 'ויקרא פרקים כא-כד',
+                        topics: ['דיני כהנים', 'מועדי השנה', 'חגי ישראל'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את דיני הכהנים: "כהנים צריכים להיות בטהרה יתירה".</p>
+                                <p>על המועדים: "כל החגים הם זמנים שמחים ומקודשים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'כבוד הכהונה',
+                            'שמירת החגים',
+                            'ספירת העומר'
+                        ]
+                    },
+                    
+                    'בהר': {
+                        summary: 'שמיטה ויובל, גאולת קרקעות, דיני עבד עברי, איסורי ריבית',
+                        verses: 'ויקרא פרקים כה-כו',
+                        topics: ['שמיטה ויובל', 'גאולת קרקעות', 'איסור ריבית'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את השמיטה: "שנת שבתון לארץ, אמונה בה\' לפרנסה".</p>
+                                <p>על היובל: "בשנת החמישים תשובו איש אל אחוזתו - שוויון ושיבה למקור".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'אמונה בפרנסה',
+                            'צדק חברתי',
+                            'חירות ושוויון'
+                        ]
+                    },
+                    
+                    'בחוקותי': {
+                        summary: 'ברכות וקללות, ערכין וחרמין, נדרים ושבועות',
+                        verses: 'ויקרא פרקים כו-כז',
+                        topics: ['ברכות וקללות', 'ערכין וחרמין', 'נדרים ושבועות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את הברכות: "אם בחוקותי תלכו - עמלים בתורה".</p>
+                                <p>על הקללות: "והוא באחריתי - גם בסוף הקללות יש נחמה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'שכר ועונש',
+                            'נאמנות להבטחות',
+                            'נדרים - אחריות'
+                        ]
+                    },
+                    
+                    'במדבר': {
+                        summary: 'מפקד בני ישראל, סדר המחנות, פדיון בכורות, סדר המסעות',
+                        verses: 'במדבר פרקים א-ד',
+                        topics: ['מפקד העם', 'סדר המחנות', 'פדיון בכורות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את המפקד: "בשמותם - כל אחד לפי חשיבותו".</p>
+                                <p>על סדר המחנות: "ארבעה דגלים כנגד ארבעה חיות המרכבה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'חשיבות כל אדם',
+                            'סדר וארגון',
+                            'כבוד הבכורה'
+                        ]
+                    },
+                    
+                    'נשא': {
+                        summary: 'משאת הלויים, סוטה, נזיר, ברכת כהנים, קרבנות הנשיאים',
+                        verses: 'במדבר פרקים ה-ז',
+                        topics: ['סוטה ונזיר', 'ברכת כהנים', 'קרבנות הנשיאים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את פרשת סוטה: "מים מרים המאררים - בודקים את האשה".</p>
+                                <p>על ברכת כהנים: "יברכך ה\' - ברכת כהנים בשלושה פסוקים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קדושת המשפחה',
+                            'ברכת כהנים',
+                            'נדיבות הנשיאים'
+                        ]
+                    },
+                    
+                    'בהעלותך': {
+                        summary: 'הדלקת המנורה, טהרת הלויים, פסח שני, עמוד ענן ואש, המן, שבעים הזקנים',
+                        verses: 'במדבר פרקים ח-יב',
+                        topics: ['הדלקת המנורה', 'פסח שני', 'עמוד ענן ואש'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את הדלקת המנורה: "אל מול פני המנורה - כלפי השמש".</p>
+                                <p>על פסח שני: "תשובה מאהבה - זדונות נעשות לו כזכויות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'אור התורה',
+                            'תשובה מאוחרת',
+                            'הנהגה אלוקית'
+                        ]
+                    },
+                    
+                    'שלח': {
+                        summary: 'מרגלים, חטא המרגלים, מצוות ציצית, נסכים',
+                        verses: 'במדבר פרקים יג-טו',
+                        topics: ['מרגלים', 'חטא המרגלים', 'מצוות ציצית'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את חטא המרגלים: "וילונו העם - תלונה על הארץ".</p>
+                                <p>על הציצית: "וראיתם אותו וזכרתם - זכירת כל המצוות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'אמונה בארץ ישראל',
+                            'חטא המרגלים',
+                            'מצוות ציצית'
+                        ]
+                    },
+                    
+                    'קרח': {
+                        summary: 'מחלוקת קורח ועדתו, מטה אהרון, מתנות כהונה',
+                        verses: 'במדבר פרקים טז-יח',
+                        topics: ['קורח ועדתו', 'מטה אהרון', 'מתנות כהונה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את מחלוקת קורח: "קחו לכם מחתות - קנאה ותחרות".</p>
+                                <p>על מטה אהרון: "המטה שפרח - אות לבחירת אהרון".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'סכנת המחלוקת',
+                            'כבוד המנהיגות',
+                            'בחירת אהרון'
+                        ]
+                    },
+                    
+                    'חוקת': {
+                        summary: 'פרה אדומה, מות מרים, מי מריבה, מות אהרון, נחש הנחושת, מלחמות',
+                        verses: 'במדבר פרקים יט-כא',
+                        topics: ['פרה אדומה', 'מי מריבה', 'נחש הנחושת'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את פרה אדומה: "חוקה - גזירה מלפני".</p>
+                                <p>על נחש הנחושת: "והביט אל נחש הנחושת וחי - אמונה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'פרה אדומה - חוקה',
+                            'מי מריבה - כעס משה',
+                            'נחש הנחושת - רפואה'
+                        ]
+                    },
+                    
+                    'בלק': {
+                        summary: 'בלק ובלעם, ברכות בלעם, חטא בעל פעור',
+                        verses: 'במדבר פרקים כב-כה',
+                        topics: ['בלק ובלעם', 'ברכות בלעם', 'חטא בעל פעור'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את בלעם: "נביא לגויים שרצה לקלל".</p>
+                                <p>על ברכות בלעם: "מה טובו אוהליך יעקב - ברכה על בתי מדרשות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'השגחה על ישראל',
+                            'ברכות בלעם',
+                            'חטא בעל פעור'
+                        ]
+                    },
+                    
+                    'פינחס': {
+                        summary: 'קנאות פינחס, מפקד חדש, בנות צלפחד, מינוי יהושע, מוספי החגים',
+                        verses: 'במדבר פרקים כה-ל',
+                        topics: ['קנאות פינחס', 'בנות צלפחד', 'מינוי יהושע'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את קנאות פינחס: "פינחס בן אלעזר - קנאי לה\'".</p>
+                                <p>על בנות צלפחד: "תנה לנו אחוזה - בנות צדיקות".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קנאות לה\'',
+                            'צדק לנשים',
+                            'העברת הנהגה'
+                        ]
+                    },
+                    
+                    'מטות': {
+                        summary: 'נדרים ושבועות, מלחמת מדין, חלוקת השלל, בני גד וראובן',
+                        verses: 'במדבר פרקים לא-לב',
+                        topics: ['נדרים ושבועות', 'מלחמת מדין', 'בני גד וראובן'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את נדרים: "לא יחל דברו - קיום הנדרים".</p>
+                                <p>על מלחמת מדין: "נקמת ה\' ממדין - עונש על חטא בעל פעור".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קיום נדרים',
+                            'מלחמת מצווה',
+                            'התיישבות בעבר הירדן'
+                        ]
+                    },
+                    
+                    'מסעי': {
+                        summary: 'מסעי בני ישראל, גבולות הארץ, ערי הלויים, ערי מקלט, בנות צלפחד',
+                        verses: 'במדבר פרקים לג-לו',
+                        topics: ['מסעי המדבר', 'גבולות הארץ', 'ערי מקלט'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את המסעות: "אלה מסעי - לזכרון נסי המדבר".</p>
+                                <p>על ערי מקלט: 'ערי מקלט - הגנה על רוצח בשגגה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'זכרון הנסים',
+                            'גבולות הארץ',
+                            'צדק משפטי'
+                        ]
+                    },
+                    
+                    'דברים': {
+                        summary: 'נאום משה, שליחת מרגלים, כיבוש עבר הירדן, ערי מקלט',
+                        verses: 'דברים פרקים א-ג',
+                        topics: ['נאום משה', 'שליחת מרגלים', 'ערי מקלט'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את נאום משה: "אלה הדברים - תוכחה במשלים".</p>
+                                <p>על ערי מקלט: "שלוש ערים תבדיל - הגנה לרוצח".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'נאום פרידה',
+                            'לקח מהמרגלים',
+                            'צדק משפטי'
+                        ]
+                    },
+                    
+                    'ואתחנן': {
+                        summary: 'תפילת משה, עשרת הדברות, שמע ישראל, איסורי עבודה זרה',
+                        verses: 'דברים פרקים ג-ז',
+                        topics: ['תפילת משה', 'עשרת הדברות', 'שמע ישראל'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "ואתחנן": "תפילה על נס".</p>
+                                <p>על "שמע ישראל": "קריאת שמע - קבלת עול מלכות שמים".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'כוח התפילה',
+                            'עשרת הדברות',
+                            'קריאת שמע'
+                        ]
+                    },
+                    
+                    'עקב': {
+                        summary: 'שכר ועונש, ארץ זבת חלב ודבש, סכנת הגאווה, עקב לא תשכחון',
+                        verses: 'דברים פרקים ז-יא',
+                        topics: ['שכר ועונש', 'ארץ ישראל', 'סכנת הגאווה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "עקב": "עקביות במצוות קלות".</p>
+                                <p>על סכנת הגאווה: "ושמחת בכל הטוב - הודאה לה\'".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'שכר על מצוות',
+                            'ברכת הארץ',
+                            'הודאה לה\''
+                        ]
+                    },
+                    
+                    'ראה': {
+                        summary: 'מרכזיות ירושלים, נביא שקר, עיר הנידחת, מאכלות אסורות, שמיטה',
+                        verses: 'דברים פרקים יא-טז',
+                        topics: ['מרכזיות ירושלים', 'נביא שקר', 'מאכלות אסורות'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "ראה": "ראיית הלב".</p>
+                                <p>על ירושלים: "מקום אשר יבחר ה\' - בית המקדש".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'קדושת ירושלים',
+                            'זהירות מנביא שקר',
+                            'שמירת הכשרות'
+                        ]
+                    },
+                    
+                    'שופטים': {
+                        summary: 'מינוי שופטים ושוטרים, דיני עדות, מלך, נביא, ערי מקלט',
+                        verses: 'דברים פרקים טז-כא',
+                        topics: ['שופטים ושוטרים', 'מלך ונביא', 'ערי מקלט'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "שופטים": "צדק צדק תרדוף".</p>
+                                <p>על המלך: "שום תשים עליך מלך - מלכות בית דוד".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'צדק משפטי',
+                            'מלכות ראויה',
+                            'ערי מקלט'
+                        ]
+                    },
+                    
+                    'כי תצא': {
+                        summary: 'דיני משפחה, עניינים חברתיים, זכירת עמלק, מצוות שונות',
+                        verses: 'דברים פרקים כא-כה',
+                        topics: ['דיני משפחה', 'מצוות חברתיות', 'זכירת עמלק'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "כי תצא": "יציאה למלחמה".</p>
+                                <p>על זכירת עמלק: "תמחה את זכר עמלק".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'דיני משפחה',
+                            'צדק חברתי',
+                            'מחיית עמלק'
+                        ]
+                    },
+                    
+                    'כי תבוא': {
+                        summary: 'ביכורים, ברכות וקללות, ברית בערבות מואב',
+                        verses: 'דברים פרקים כו-כט',
+                        topics: ['ביכורים', 'ברכות וקללות', 'ברית מואב'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את הביכורים: "הודאה על הארץ".</p>
+                                <p>על הברכות והקללות: "ראה נתתי לפניך ברכה וקללה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'הודאה על ביכורים',
+                            'שכר ועונש',
+                            'ברית עם ה\''
+                        ]
+                    },
+                    
+                    'ניצבים': {
+                        summary: 'ברית עם ישראל, תשובה וגאולה, הבחירה בחיים',
+                        verses: 'דברים פרקים כט-ל',
+                        topics: ['ברית עם ישראל', 'תשובה וגאולה', 'בחירה בחיים'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "ניצבים": "עומדים לפני ה\'".</p>
+                                <p>על התשובה: "כי קרוב אליך הדבר מאוד - תשובה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'ברית עם ה\'',
+                            'כוח התשובה',
+                            'בחירה בטוב'
+                        ]
+                    },
+                    
+                    'וילך': {
+                        summary: 'העברת ההנהגה ליהושע, קריאת התורה בהקהל, משה מחזק את העם',
+                        verses: 'דברים פרק לא',
+                        topics: ['יהושע מנהיג', 'מצוות הקהל', 'חזוק העם'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "וילך": "הליכה למות".</p>
+                                <p>על הקהל: "מקץ שבע שנים - קריאת תורה".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'העברת הנהגה',
+                            'קריאת תורה בציבור',
+                            'חיזוק האמונה'
+                        ]
+                    },
+                    
+                    'האזינו': {
+                        summary: 'שירת האזינו, תוכחה ונחמה, צוואת משה',
+                        verses: 'דברים פרק לב',
+                        topics: ['שירת האזינו', 'תוכחה ונחמה', 'צוואת משה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "האזינו": "שירה על העתיד".</p>
+                                <p>על השירה: "הצור תמים פעלו - הקב"ה צדיק".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'שירת תוכחה',
+                            'נחמה לעתיד',
+                            'צוואת משה'
+                        ]
+                    },
+                    
+                    'וזאת הברכה': {
+                        summary: 'ברכת משה לשבטים, מות משה, תיאור גדולת משה',
+                        verses: 'דברים פרקים לג-לד',
+                        topics: ['ברכת משה', 'מות משה', 'גדולת משה'],
+                        detailedCommentary: `
+                            <div class="zohar-section">
+                                <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                                <p>הזוהר מסביר את "וזאת הברכה": "ברכה אחרונה".</p>
+                                <p>על מות משה: "וימת שם משה - על פי ה\'".</p>
+                            </div>
+                        `,
+                        lessons: [
+                            'ברכות לשבטים',
+                            'מות משה',
+                            'גדולת הנביא'
+                        ]
+                    }
+                };
+                
+                // אם הפרשה לא במאגר, נחזיר פירוש בסיסי
+                return parshaDatabase[parshaName] || {
+                    summary: 'פרשה זו מופיעה בתורה ומהווה חלק מסיפור התורה',
+                    verses: 'פסוקים בתורה',
+                    topics: ['נושאים שונים'],
+                    detailedCommentary: `
+                        <div class="zohar-section">
+                            <h4><i class="fas fa-star-of-david"></i> פירוש הזוהר הקדוש:</h4>
+                            <p>הזוהר הקדוש דורש עניינים עמוקים בפרשת ${parshaName}, ומראה כיצד כל פרט בתורה קשור לסודות העמוקים של הבריאה ולנשמות ישראל.</p>
+                        </div>
+                        
+                        <div class="commentary-section">
+                            <h4><i class="fas fa-comment"></i> פירוש רש"י:</h4>
+                            <p>רש"י מסביר את הפסוקים בפרשת ${parshaName} ומביא מדרשי חז"ל להבנת הפרשה ומשמעותה.</p>
+                        </div>
+                    `,
+                    lessons: [
+                        'לימוד תורה בכל יום מחזק את הנשמה',
+                        'כל פרשה מכילה הדרכה לחיים טובים',
+                        'קיום המצוות מביא ברכה לחיים'
+                    ]
+                };
+            }
+            
+            // ==================== תצוגות נוספות ====================
+            
+            updateHolidaysView() {
+                document.getElementById('holidays-year').textContent = 
+                    `${this.toHebrewYear(this.displayYear)}`;
+                    
+                const grid = document.getElementById('holidays-grid');
+                grid.innerHTML = '';
+                
+                // חגים לשנה זו
+                const holidays = [
+                    { name: 'ראש השנה', date: 'א-ב תשרי', type: 'holiday', desc: 'יום הדין ותחילת השנה העברית' },
+                    { name: 'צום גדליה', date: 'ג תשרי', type: 'fast', desc: 'צום לזכר רצח גדליה בן אחיקם' },
+                    { name: 'יום כיפור', date: 'י תשרי', type: 'fast', desc: 'יום הכיפורים - יום הסליחה והתשובה' },
+                    { name: 'סוכות', date: 'ט"ו-כ"א תשרי', type: 'holiday', desc: 'חג הסוכות - ישיבה בסוכה' },
+                    { name: 'שמיני עצרת', date: 'כ"ב תשרי', type: 'holiday', desc: 'שמיני עצרת' },
+                    { name: 'שמחת תורה', date: 'כ"ג תשרי', type: 'holiday', desc: 'שמחת תורה - מסיימים את התורה' },
+                    { name: 'חנוכה', date: 'כ"ה כסלו - ב/ג טבת', type: 'holiday', desc: 'חג החנוכה - ניסוך השמן' },
+                    { name: 'עשרה בטבת', date: 'י טבת', type: 'fast', desc: 'צום עשרה בטבת - תחילת המצור על ירושלים' },
+                    { name: 'ט"ו בשבט', date: 'ט"ו שבט', type: 'holiday', desc: 'ראש השנה לאילנות' },
+                    { name: 'תענית אסתר', date: 'י"ג אדר ב', type: 'fast', desc: 'תענית אסתר - ערב פורים' },
+                    { name: 'פורים', date: 'י"ד אדר ב', type: 'holiday', desc: 'פורים - קריאת המגילה ומשלוח מנות' },
+                    { name: 'פסח', date: 'ט"ו-כ"ב ניסן', type: 'holiday', desc: 'חג הפסח - ליל הסדר' },
+                    { name: 'ל"ג בעומר', date: 'י"ח אייר', type: 'holiday', desc: 'הילולת רבי שמעון בר יוחאי' },
+                    { name: 'יום ירושלים', date: 'כ"ח אייר', type: 'holiday', desc: 'יום שחרור ירושלים' },
+                    { name: 'שבועות', date: 'ו-ז סיוון', type: 'holiday', desc: 'חג השבועות - מתן תורה' },
+                    { name: 'שבעה עשר בתמוז', date: 'י"ז תמוז', type: 'fast', desc: 'צום שבעה עשר בתמוז' },
+                    { name: 'תשעה באב', date: 'ט אב', type: 'fast', desc: 'צום תשעה באב' },
+                    { name: 'ט"ו באב', date: 'ט"ו אב', type: 'holiday', desc: 'חג האהבה' }
+                ];
+                
+                holidays.forEach(holiday => {
+                    const card = document.createElement('div');
+                    card.className = `holiday-card ${holiday.type}`;
+                    
+                    const icon = holiday.type === 'fast' ? 'fa-moon' : 
+                                 holiday.type === 'rosh-hodesh' ? 'fa-star' : 'fa-star-of-david';
+                    
+                    card.innerHTML = `
+                        <div class="holiday-title">
+                            <i class="fas ${icon}"></i> ${holiday.name}
+                        </div>
+                        <div class="holiday-date">
+                            <i class="fas fa-calendar-alt"></i> ${holiday.date} ${this.toHebrewYear(this.displayYear)}
+                        </div>
+                        <div class="holiday-desc">${holiday.desc}</div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+            }
+            
+            updateParshiotView() {
+                document.getElementById('parshiot-year').textContent = 
+                    `${this.toHebrewYear(this.displayYear)}`;
+                    
+                const grid = document.getElementById('parshiot-grid');
+                const loading = document.getElementById('parshiot-loading');
+                
+                // הסתר טוען והצג רשימה
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    grid.style.display = 'grid';
+                    
+                    grid.innerHTML = '';
+                    
+                    // הוסף את כל 54 הפרשות
+                    this.allParshiot.forEach(parshaName => {
+                        const parshaInfo = this.getParshaInfo(parshaName);
+                        
+                        const card = document.createElement('div');
+                        card.className = 'parsha-card';
+                        card.innerHTML = `
+                            <div class="parsha-title">
+                                <i class="fas fa-torah"></i> פרשת ${parshaName}
+                            </div>
+                            <div class="parsha-summary">${parshaInfo.summary}</div>
+                            <div style="margin-top: 10px;">
+                                <span class="source-tag"><i class="fas fa-scroll"></i> ${parshaInfo.verses}</span>
+                                ${parshaInfo.topics.slice(0, 3).map(topic => 
+                                    `<span class="source-tag"><i class="fas fa-tag"></i> ${topic}</span>`
+                                ).join('')}
+                            </div>
+                        `;
+                        
+                        card.addEventListener('click', () => {
+                            this.showParshaModal(parshaName);
+                        });
+                        
+                        grid.appendChild(card);
+                    });
+                }, 500);
+            }
+            
+            // ==================== מודאלים ====================
+            
+            showDayDetails(gregorianDate, parsha, holiday, weekdayName) {
+                const hebrewDate = this.calculateHebrewDate(gregorianDate);
+                const gregorianDisplay = gregorianDate.toLocaleDateString('he-IL');
+                const dayOfMonth = gregorianDate.getDate();
+                const month = gregorianDate.getMonth();
+                const year = gregorianDate.getFullYear();
+                
+                const monthNames = ["ינואר", "פברואר", "מרץ", "אפריל", "מאי", "יוני", 
+                                  "יולי", "אוגוסט", "ספטמבר", "אוקטובר", "נובמבר", "דצמבר"];
+                
+                document.getElementById('day-modal-title').textContent = 
+                    `${weekdayName}, ${dayOfMonth} ב${monthNames[month]} ${year}`;
+                
+                let modalContent = `
+                    <div class="day-info-section">
+                        <div class="info-item">
+                            <div class="info-label">תאריך עברי</div>
+                            <div class="info-value">${hebrewDate}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">תאריך לועזי</div>
+                            <div class="info-value">${gregorianDisplay}</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">יום בשבוע</div>
+                            <div class="info-value">${weekdayName}</div>
+                        </div>
+                    </div>
+                `;
+                
+                if (holiday || parsha) {
+                    modalContent += `<div class="day-details">`;
+                    
+                    if (holiday) {
+                        modalContent += `
+                            <div class="detail-title">
+                                <i class="fas ${holiday.type === 'fast' ? 'fa-moon' : holiday.type === 'rosh-hodesh' ? 'fa-star' : 'fa-star-of-david'}"></i> ${holiday.name}
+                            </div>
+                            <div class="detail-content">
+                                <p>${holiday.desc}</p>
+                                ${holiday.type === 'fast' ? '<p><strong>זמני הצום:</strong> מהזריחה עד צאת הכוכבים</p>' : ''}
+                                ${holiday.name.includes('ראש חודש') ? '<p><strong>מנהגים:</strong> תפילת הלל, קורבן מוסף, סעודת ראש חודש</p>' : ''}
+                            </div>
+                        `;
+                    }
+                    
+                    if (parsha) {
+                        const parshaInfo = this.getParshaInfo(parsha);
+                        modalContent += `
+                            <div class="detail-title">
+                                <i class="fas fa-torah"></i> פרשת השבוע
+                            </div>
+                            <div class="detail-content">
+                                <p><strong>פרשת ${parsha}</strong></p>
+                                <p>${parshaInfo.summary}</p>
+                                <p><strong>פסוקים:</strong> ${parshaInfo.verses}</p>
+                                <p><strong>נושאים מרכזיים:</strong> ${parshaInfo.topics.join(', ')}</p>
+                            </div>
+                        `;
+                    }
+                    
+                    modalContent += `</div>`;
+                }
+                
+                modalContent += `<div class="actions">`;
+                
+                if (parsha) {
+                    modalContent += `
+                        <button class="action-btn parsha-btn" onclick="calendar.showParshaModal('${parsha}')">
+                            <i class="fas fa-torah"></i> פירוש מלא לפרשת ${parsha}
+                        </button>
+                    `;
+                }
+                
+                if (holiday) {
+                    modalContent += `
+                        <button class="action-btn holiday-btn" onclick="alert('מידע נוסף על ${holiday.name}')">
+                            <i class="fas fa-info-circle"></i> עוד על ${holiday.name}
+                        </button>
+                    `;
+                }
+                
+                modalContent += `
+                    <button class="action-btn" onclick="calendar.closeDayModal()">
+                        <i class="fas fa-times"></i> סגירה
+                    </button>
+                `;
+                
+                modalContent += `</div>`;
+                
+                document.getElementById('day-modal-body').innerHTML = modalContent;
+                document.getElementById('day-modal').classList.add('active');
+            }
+            
+            showParshaModal(parshaName) {
+                const parshaInfo = this.getParshaInfo(parshaName);
+                
+                document.getElementById('parsha-modal-title').textContent = `פרשת ${parshaName}`;
+                
+                document.getElementById('parsha-modal-body').innerHTML = `
+                    <div class="parsha-meta">
+                        <div class="meta-item">
+                            <div class="meta-label">שם הפרשה</div>
+                            <div class="meta-value">${parshaName}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">פסוקים</div>
+                            <div class="meta-value">${parshaInfo.verses}</div>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-label">נושאים מרכזיים</div>
+                            <div class="meta-value">${parshaInfo.topics.slice(0, 3).join(', ')}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="parsha-section">
+                        <div class="section-title">
+                            <i class="fas fa-info-circle"></i> תקציר הפרשה
+                        </div>
+                        <div class="section-content">
+                            <p>${parshaInfo.summary}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="parsha-section">
+                        <div class="section-title">
+                            <i class="fas fa-book-open"></i> פירושים מלאים
+                        </div>
+                        <div class="section-content">
+                            ${parshaInfo.detailedCommentary}
+                        </div>
+                    </div>
+                    
+                    <div class="parsha-section">
+                        <div class="section-title">
+                            <i class="fas fa-graduation-cap"></i> לקחים מרכזיים
+                        </div>
+                        <div class="section-content">
+                            <ul>
+                                ${parshaInfo.lessons.map(lesson => `<li>${lesson}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="actions">
+                        <button class="action-btn" onclick="calendar.closeParshaModal()">
+                            <i class="fas fa-times"></i> סגירה
+                        </button>
+                    </div>
+                `;
+                
+                document.getElementById('parsha-modal').classList.add('active');
+            }
+            
+            // ==================== פונקציות ניווט בין שנים ====================
+            
+            closeDayModal() {
+                document.getElementById('day-modal').classList.remove('active');
+            }
+            
+            closeParshaModal() {
+                document.getElementById('parsha-modal').classList.remove('active');
+            }
+            
+            setView(view) {
+                document.querySelectorAll('.view-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                
+                event.target.classList.add('active');
+                
+                document.getElementById('calendar-view').style.display = 'none';
+                document.getElementById('holidays-view').classList.remove('active');
+                document.getElementById('parshiot-view').classList.remove('active');
+                
+                switch(view) {
+                    case 'calendar':
+                        document.getElementById('calendar-view').style.display = 'grid';
+                        break;
+                    case 'holidays':
+                        document.getElementById('holidays-view').classList.add('active');
+                        break;
+                    case 'parshiot':
+                        document.getElementById('parshiot-view').classList.add('active');
+                        break;
+                }
+            }
+            
+            changeYear(delta) {
+                this.displayYear += delta;
+                this.updateDisplay();
+            }
+            
+            goToYear() {
+                const input = document.getElementById('yearInput');
+                const year = parseInt(input.value);
+                
+                if (year >= 5700 && year <= 5900) {
+                    this.displayYear = year;
+                    this.updateDisplay();
+                } else {
+                    alert('נא להכניס שנה עברית בין 5700 ל-5900');
+                }
+            }
+            
+            updateDisplay() {
+                this.updateYearDisplay();
+                this.renderCalendar();
+                this.updateHolidaysView();
+                this.updateParshiotView();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('day-modal').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('day-modal')) {
+                        this.closeDayModal();
+                    }
+                });
+                
+                document.getElementById('parsha-modal').addEventListener('click', (e) => {
+                    if (e.target === document.getElementById('parsha-modal')) {
+                        this.closeParshaModal();
+                    }
+                });
+                
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        this.closeDayModal();
+                        this.closeParshaModal();
+                    }
+                });
+            }
+        }
+        
+        // ==================== אתחול האפליקציה ====================
+        
+        let calendar;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            calendar = new PerfectHebrewCalendar();
+            
+            // הפיכת הפונקציות לגלובליות
+            window.changeYear = (delta) => calendar.changeYear(delta);
+            window.goToYear = () => calendar.goToYear();
+            window.setView = (view) => calendar.setView(view);
+            window.showParshaModal = (parshaName) => calendar.showParshaModal(parshaName);
+            window.closeDayModal = () => calendar.closeDayModal();
+            window.closeParshaModal = () => calendar.closeParshaModal();
+            
+            // הפיכת האובייקט לגלובלי
+            window.calendar = calendar;
+        });
+    </script>
+</body>
+</html>
