@@ -80,6 +80,11 @@
             color: var(--primary);
         }
         
+        .kabbalah-today { margin-top: 14px; padding: 14px 16px; border-radius: 14px; background: rgba(212,175,55,.1); border: 1px solid rgba(212,175,55,.55); text-align: right; line-height: 1.7; }
+        .kb-title { font-weight: 700; margin-bottom: 6px; }
+        .kb-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+        .kb-links button, .kb-links a { cursor: pointer; border: 1px solid rgba(212,175,55,.6); background: #fff; color: inherit; border-radius: 999px; padding: 6px 14px; font: inherit; font-size: .9rem; text-decoration: none; }
+        .kb-links button:hover, .kb-links a:hover { background: rgba(212,175,55,.3); }
         .today-parsha {
             background: #e8f4f8;
             padding: 12px 25px;
@@ -1016,6 +1021,7 @@
             <div class="today-parsha" id="today-parsha">
                 <i class="fas fa-torah"></i> פרשת השבוע: טוען...
             </div>
+            <div class="kabbalah-today" id="kabbalah-today"></div>
         </div>
         
         <div class="controls">
@@ -1029,7 +1035,7 @@
                 </button>
                 
                 <div class="year-input-group">
-                    <input type="number" class="year-input" id="yearInput" placeholder="שנה עברית" min="5700" max="5900" value="5786">
+                    <input type="number" class="year-input" id="yearInput" placeholder="שנה עברית" min="5700" max="5900" value="5787">
                     <button class="go-btn" onclick="goToYear()">
                         <i class="fas fa-search"></i> חפש
                     </button>
@@ -1096,6 +1102,7 @@
         <p style="margin-top: 10px; font-size: 0.9rem;">כל 54 הפרשות עם פירושים מלאים זמינות מיידית ללא טעינה | מעבר בין שנים 5700-5900</p>
     </footer>
 
+    <script src="heb.js"></script>
     <script>
         // ==================== מערכת לוח שנה עברי מדויקת עם תמיכה בכל השנים ====================
         
@@ -1196,8 +1203,8 @@
                 ];
                 
                 // שנתיים ראשונות וחודשים
-                this.currentYear = 5786;
-                this.displayYear = 5786;
+                this.currentYear = HebCal.fromDay(HebCal.dayOf(new Date())).y;   // follows today's date
+                this.displayYear = this.currentYear;
                 
                 // מאגר הפירושים המלא לכל הפרשות
                 this.parshaDatabase = this.createCompleteParshaDatabase();
@@ -1211,6 +1218,7 @@
                 this.updateHolidaysView();
                 this.updateParshiotView();
                 this.setupEventListeners();
+                this.watchTheDay();
             }
             
             // ==================== מאגר פירושים מלא לכל 54 הפרשות ====================
@@ -2554,77 +2562,12 @@
             }
             
             toHebrewYear(year) {
-                const thousands = Math.floor(year / 1000);
-                const hundreds = Math.floor((year % 1000) / 100);
-                const tens = Math.floor((year % 100) / 10);
-                const units = year % 10;
-                
-                let result = '';
-                
-                if (thousands > 0) {
-                    for (let i = 0; i < thousands; i++) {
-                        result += 'ת';
-                    }
-                }
-                
-                if (hundreds > 0) {
-                    result += this.toHebrewNumeral(hundreds * 100);
-                }
-                
-                const lastTwo = tens * 10 + units;
-                if (lastTwo > 0) {
-                    result += this.toHebrewNumeral(lastTwo);
-                }
-                
-                return result;
+                return HebCal.yearName(year);
             }
             
             getYearInfo(hebrewYear) {
-                // החזרת מידע על השנה...
-                const yearMapping = {
-                    5786: {
-                        start: '2025-09-14',
-                        end: '2026-10-02',
-                        leap: true,
-                        roshHashanaDay: 0,
-                        holidays: {
-                            'ראש השנה': ['2025-09-14', '2025-09-15'],
-                            'צום גדליה': '2025-09-16',
-                            'יום כיפור': '2025-09-22',
-                            'סוכות': ['2025-09-27', '2025-09-28'],
-                            'הושענא רבה': '2025-10-03',
-                            'שמיני עצרת': '2025-10-04',
-                            'שמחת תורה': '2025-10-05',
-                            'חנוכה': ['2025-12-14', '2025-12-15', '2025-12-16', '2025-12-17', '2025-12-18', '2025-12-19', '2025-12-20', '2025-12-21'],
-                            'עשרה בטבת': '2025-12-30',
-                            'ט"ו בשבט': '2026-02-01',
-                            'תענית אסתר': '2026-03-23',
-                            'פורים': '2026-03-24',
-                            'שושן פורים': '2026-03-25',
-                            'פסח': ['2026-04-01', '2026-04-02', '2026-04-07', '2026-04-08'],
-                            'פסח שני': '2026-05-08',
-                            'ל"ג בעומר': '2026-05-26',
-                            'יום ירושלים': '2026-06-05',
-                            'שבועות': ['2026-05-24', '2026-05-25'],
-                            'שבעה עשר בתמוז': '2026-07-25',
-                            'תשעה באב': '2026-08-13',
-                            'ט"ו באב': '2026-08-21'
-                        }
-                    }
-                };
-                
-                if (yearMapping[hebrewYear]) {
-                    return yearMapping[hebrewYear];
-                }
-                
-                const startYear = 2023 + (hebrewYear - 5784);
-                return {
-                    start: `${startYear}-09-15`,
-                    end: `${startYear + 1}-10-02`,
-                    leap: this.isLeapYear(hebrewYear),
-                    roshHashanaDay: 0,
-                    holidays: {}
-                };
+                const start = HebCal.dateOf(HebCal.newYearDay(hebrewYear)), end = HebCal.dateOf(HebCal.newYearDay(hebrewYear + 1) - 1);
+                return { start: start, end: end, leap: HebCal.isLeap(hebrewYear), holidays: {} };
             }
             
             isLeapYear(hebrewYear) {
@@ -2632,37 +2575,9 @@
                 return [0, 3, 6, 8, 11, 14, 17].includes(cycleYear);
             }
             
-            calculateHebrewDateForYear(gregorianDate, targetYear) {
-                const yearInfo = this.getYearInfo(targetYear);
-                const roshHashana = new Date(yearInfo.start);
-                
-                const diffDays = Math.floor((gregorianDate - roshHashana) / (1000 * 60 * 60 * 24));
-                
-                if (diffDays >= 0 && diffDays < 385) {
-                    let remainingDays = diffDays;
-                    let monthIndex = 0;
-                    
-                    const monthLengths = yearInfo.leap ? 
-                        [30, 29, 30, 29, 30, 30, 29, 30, 29, 30, 29, 30, 29] :
-                        [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
-                    
-                    for (let i = 0; i < monthLengths.length; i++) {
-                        if (remainingDays < monthLengths[i]) {
-                            monthIndex = i;
-                            break;
-                        }
-                        remainingDays -= monthLengths[i];
-                    }
-                    
-                    const hebrewDay = remainingDays + 1;
-                    const months = yearInfo.leap ? this.hebrewMonthsLeap : this.hebrewMonths;
-                    const hebrewMonth = months[monthIndex];
-                    const hebrewYearStr = this.toHebrewYear(targetYear);
-                    
-                    return `${this.toHebrewNumeral(hebrewDay)} ב${hebrewMonth} ${hebrewYearStr}`;
-                }
-                
-                return `א' בתשרי ${this.toHebrewYear(targetYear)}`;
+            calculateHebrewDateForYear(gregorianDate) {
+                const h = HebCal.describe(HebCal.dayOf(gregorianDate));
+                return `${h.text} ${h.year}`;
             }
             
             calculateHebrewDate(gregorianDate) {
@@ -2670,22 +2585,11 @@
             }
             
             getHolidayForDate(date) {
-                const yearInfo = this.getYearInfo(this.displayYear);
-                const dateStr = date.toISOString().split('T')[0];
-                
-                for (const [holidayName, holidayDates] of Object.entries(yearInfo.holidays || {})) {
-                    if (Array.isArray(holidayDates)) {
-                        if (holidayDates.includes(dateStr)) {
-                            return this.getHolidayDetails(holidayName);
-                        }
-                    } else {
-                        if (holidayDates === dateStr) {
-                            return this.getHolidayDetails(holidayName);
-                        }
-                    }
-                }
-                
-                return this.getApproximateHoliday(date);
+                const day = HebCal.dayOf(date), hol = HebCal.holidayOn(day);
+                if (hol) return { name: hol.name, type: hol.type, desc: hol.desc };
+                const rc = HebCal.roshChodesh(day);
+                if (rc) return { name: 'ראש חודש ' + rc, type: 'rosh-hodesh', desc: 'ראש חודש ' + rc + ': יום של התחדשות והתחלה חדשה.' };
+                return null;
             }
             
             getHolidayDetails(holidayName) {
@@ -2772,65 +2676,50 @@
             
             updateTodayInfo() {
                 const today = new Date();
-                const yearInfo = this.getYearInfo(this.displayYear);
-                const hebrewDate = this.calculateHebrewDate(today);
-                const gregorianDate = today.toLocaleDateString('he-IL', {
-                    weekday: 'long',
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
-                
-                document.getElementById('currentHebrewDate').textContent = hebrewDate;
-                document.getElementById('currentGregorianDate').textContent = gregorianDate;
-                
+                const h = HebCal.describe(HebCal.dayOf(today));
+                document.getElementById('currentHebrewDate').textContent = h.full;
+                document.getElementById('currentGregorianDate').textContent = today.toLocaleDateString('he-IL', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
                 const todayParsha = this.getParshaForDate(today);
-                document.getElementById('today-parsha').innerHTML = 
-                    `<i class="fas fa-torah"></i> פרשת השבוע: ${todayParsha || 'אין פרשה היום'}`;
-                if (todayParsha) {
-                    document.getElementById('today-parsha').onclick = () => this.showParshaModal(todayParsha);
-                }
-                
+                const box = document.getElementById('today-parsha');
+                box.innerHTML = `<i class="fas fa-torah"></i> ${todayParsha ? 'פרשת השבוע: ' + todayParsha : 'שבת מועד, אין פרשה השבוע'}`;
+                box.onclick = todayParsha ? () => this.showParshaModal(todayParsha) : null;
+                this.updateKabbalahToday(today);
                 this.updateYearDisplay();
+            }
+
+            updateKabbalahToday(today) {
+                const box = document.getElementById('kabbalah-today');
+                if (!box) return;
+                const par = this.getParshaForDate(today);
+                box.innerHTML = '<div class="kb-title"><i class="fas fa-star-of-david"></i> היום בקבלה ובזוהר</div>' +
+                    HebCal.kabbalahToday(HebCal.dayOf(today)).map(l => `<div class="kb-line"><b>${l.b}</b>${l.t ? ' · ' + l.t : ''}</div>`).join('') +
+                    `<div class="kb-links">${par ? `<button type="button" onclick="calendar.showParshaModal('${par}')"><i class="fas fa-star-of-david"></i> הזוהר והקבלה על פרשת ${par}</button>` : ''}<a href="https://www.sefaria.org/Zohar" target="_blank" rel="noopener"><i class="fas fa-book-open"></i> הזוהר בספריא</a></div>`;
+            }
+
+            // refresh by itself when the day changes (and when the tab comes back)
+            watchTheDay() {
+                let shown = HebCal.dayOf(new Date());
+                const tick = () => { const now = HebCal.dayOf(new Date()); if (now !== shown) { shown = now; this.updateDisplay(); } };
+                document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+                setInterval(tick, 60 * 1000);
             }
             
             updateYearDisplay() {
-                const yearInfo = this.getYearInfo(this.displayYear);
-                const startDate = new Date(yearInfo.start);
-                const endDate = new Date(yearInfo.end);
-                
-                const startYear = startDate.getFullYear();
-                const endYear = endDate.getFullYear();
-                const startMonth = startDate.getMonth() + 1;
-                const endMonth = endDate.getMonth() + 1;
-                
-                const yearDisplay = `שנת ${this.toHebrewYear(this.displayYear)} (ספטמבר ${startYear} - ספטמבר ${endYear})`;
-                document.getElementById('yearDisplay').textContent = yearDisplay;
-                document.getElementById('yearRangeInfo').textContent = `ספטמבר ${startYear} - ספטמבר ${endYear}`;
+                const y = this.displayYear, a = HebCal.dateOf(HebCal.newYearDay(y)), b = HebCal.dateOf(HebCal.newYearDay(y + 1) - 1);
+                const f = (d) => d.toLocaleDateString('he-IL', { month: 'long', year: 'numeric' });
+                document.getElementById('yearDisplay').textContent = `שנת ${HebCal.yearName(y)} (${f(a)} - ${f(b)})`;
+                document.getElementById('yearRangeInfo').textContent = `${f(a)} - ${f(b)}`;
+                document.getElementById('yearInput').value = y;
             }
             
             createYearCalendar() {
                 const container = document.getElementById('calendar-view');
                 container.innerHTML = '';
-                
-                const yearInfo = this.getYearInfo(this.displayYear);
-                const startDate = new Date(yearInfo.start);
-                const startYear = startDate.getFullYear();
-                const startMonth = startDate.getMonth();
-                
-                for (let monthOffset = 0; monthOffset < 12; monthOffset++) {
-                    let month, year;
-                    
-                    if (startMonth + monthOffset > 11) {
-                        month = (startMonth + monthOffset) % 12;
-                        year = startYear + 1;
-                    } else {
-                        month = startMonth + monthOffset;
-                        year = startYear;
-                    }
-                    
-                    const monthCard = this.createMonthCard(month, year);
-                    container.appendChild(monthCard);
+                const a = HebCal.dateOf(HebCal.newYearDay(this.displayYear)), b = HebCal.dateOf(HebCal.newYearDay(this.displayYear + 1) - 1);
+                let y = a.getFullYear(), m = a.getMonth();
+                while (y < b.getFullYear() || (y === b.getFullYear() && m <= b.getMonth())) {
+                    container.appendChild(this.createMonthCard(m, y));
+                    if (++m > 11) { m = 0; y++; }
                 }
             }
             
@@ -2892,10 +2781,10 @@
                     }
                     if (isToday) dayCell.classList.add('today');
                     
-                    const hebrewDayOnly = hebrewDate.split(' ')[0];
+                    const hebrewDayOnly = hebrewDate.split(' ')[0] + (hebrewDate.split(' ')[0] === 'א׳' ? ' ' + hebrewDate.split(' ')[1] : '');
                     
                     let dayInfo = '';
-                    if (parsha && isFriday) {
+                    if (parsha && isShabbat) {
                         dayInfo += `<div class="day-info parsha-indicator">${parsha}</div>`;
                     }
                     if (holiday) {
@@ -2937,74 +2826,8 @@
             }
             
             getParshaForDate(date) {
-                if (this.displayYear === 5786) {
-                    const parshiot5786 = {
-                        '2025-09-12': 'וילך',
-                        '2025-09-19': 'האזינו',
-                        '2025-09-26': 'וזאת הברכה',
-                        '2025-10-03': 'בראשית',
-                        '2025-10-10': 'נח',
-                        '2025-10-17': 'לך לך',
-                        '2025-10-24': 'וירא',
-                        '2025-10-31': 'חיי שרה',
-                        '2025-11-07': 'תולדות',
-                        '2025-11-14': 'ויצא',
-                        '2025-11-21': 'וישלח',
-                        '2025-11-28': 'וישב',
-                        '2025-12-05': 'מקץ',
-                        '2025-12-12': 'ויגש',
-                        '2025-12-19': 'ויחי',
-                        '2025-12-26': 'שמות',
-                        '2026-01-02': 'וארא',
-                        '2026-01-09': 'בא',
-                        '2026-01-16': 'בשלח',
-                        '2026-01-23': 'יתרו',
-                        '2026-01-30': 'משפטים',
-                        '2026-02-06': 'תרומה',
-                        '2026-02-13': 'תצוה',
-                        '2026-02-20': 'כי תשא',
-                        '2026-02-27': 'ויקהל',
-                        '2026-03-06': 'פקודי',
-                        '2026-03-13': 'ויקרא',
-                        '2026-03-20': 'צו',
-                        '2026-03-27': 'שמיני',
-                        '2026-04-03': 'תזריע',
-                        '2026-04-10': 'מצורע',
-                        '2026-04-24': 'אחרי מות',
-                        '2026-05-01': 'קדושים',
-                        '2026-05-08': 'אמור',
-                        '2026-05-15': 'בהר',
-                        '2026-05-22': 'בחוקותי',
-                        '2026-05-29': 'במדבר',
-                        '2026-06-05': 'נשא',
-                        '2026-06-12': 'בהעלותך',
-                        '2026-06-19': 'שלח',
-                        '2026-06-26': 'קרח',
-                        '2026-07-03': 'חוקת',
-                        '2026-07-10': 'בלק',
-                        '2026-07-17': 'פינחס',
-                        '2026-07-24': 'מטות',
-                        '2026-07-31': 'מסעי',
-                        '2026-08-07': 'דברים',
-                        '2026-08-14': 'ואתחנן',
-                        '2026-08-21': 'עקב',
-                        '2026-08-28': 'ראה',
-                        '2026-09-04': 'שופטים',
-                        '2026-09-11': 'כי תצא',
-                        '2026-09-18': 'כי תבוא'
-                    };
-                    
-                    const dateStr = date.toISOString().split('T')[0];
-                    return parshiot5786[dateStr] || null;
-                }
-                
-                const weekday = date.getDay();
-                if (weekday !== 5) return null;
-                
-                const yearStart = new Date(date.getFullYear(), 0, 1);
-                const weekNumber = Math.floor((date - yearStart) / (7 * 24 * 60 * 60 * 1000));
-                const parshaIndex = (weekNumber + 40) % this.allParshiot.length;
-                return this.allParshiot[parshaIndex];
+                // the portion of the Shabbat on or after this date; computed, so it is right in every year
+                return HebCal.parshaFor(HebCal.dayOf(date)).name;
             }
             
             updateHolidaysView() {
@@ -3038,90 +2861,13 @@
             }
             
             getHolidaysForYear() {
-                const yearInfo = this.getYearInfo(this.displayYear);
-                const isLeap = yearInfo.leap;
-                
-                if (yearInfo.holidays && Object.keys(yearInfo.holidays).length > 0) {
-                    const holidays = [];
-                    
-                    for (const [holidayName, holidayDates] of Object.entries(yearInfo.holidays)) {
-                        const holidayDetails = this.getHolidayDetails(holidayName);
-                        if (holidayDetails) {
-                            let hebrewDate = '';
-                            if (Array.isArray(holidayDates)) {
-                                const firstDate = new Date(holidayDates[0]);
-                                hebrewDate = this.calculateHebrewDate(firstDate);
-                                hebrewDate = hebrewDate.split(' ')[0] + '-' + 
-                                            this.calculateHebrewDate(new Date(holidayDates[holidayDates.length-1])).split(' ')[0];
-                            } else {
-                                const date = new Date(holidayDates);
-                                hebrewDate = this.calculateHebrewDate(date).split(' ')[0];
-                            }
-                            
-                            holidays.push({
-                                name: holidayDetails.name,
-                                date: hebrewDate,
-                                type: holidayDetails.type,
-                                desc: holidayDetails.desc
-                            });
-                        }
-                    }
-                    
-                    return holidays.sort((a, b) => {
-                        const monthOrder = ['תשרי', 'חשוון', 'כסלו', 'טבת', 'שבט', 'אדר', 'אדר א׳', 'אדר ב׳', 'ניסן', 'אייר', 'סיוון', 'תמוז', 'אב', 'אלול'];
-                        const getMonth = (dateStr) => {
-                            for (const month of monthOrder) {
-                                if (dateStr.includes(month)) return month;
-                            }
-                            return '';
-                        };
-                        
-                        const aMonth = getMonth(a.date);
-                        const bMonth = getMonth(b.date);
-                        
-                        if (aMonth !== bMonth) {
-                            return monthOrder.indexOf(aMonth) - monthOrder.indexOf(bMonth);
-                        }
-                        
-                        return this.extractDayNumber(a.date) - this.extractDayNumber(b.date);
-                    });
-                }
-                
-                let holidays = [
-                    { name: 'ראש השנה', date: 'א-ב תשרי', type: 'holiday', desc: 'יום הדין ותחילת השנה העברית' },
-                    { name: 'צום גדליה', date: 'ג תשרי', type: 'fast', desc: 'צום לזכר רצח גדליה בן אחיקם' },
-                    { name: 'יום כיפור', date: 'י תשרי', type: 'fast', desc: 'יום הכיפורים - יום הסליחה והתשובה' },
-                    { name: 'סוכות', date: 'ט"ו-כ"א תשרי', type: 'holiday', desc: 'חג הסוכות - ישיבה בסוכה' },
-                    { name: 'שמיני עצרת', date: 'כ"ב תשרי', type: 'holiday', desc: 'שמיני עצרת' },
-                    { name: 'שמחת תורה', date: 'כ"ג תשרי', type: 'holiday', desc: 'שמחת תורה - מסיימים את התורה' },
-                    { name: 'חנוכה', date: 'כ"ה כסלו - ב/ג טבת', type: 'holiday', desc: 'חג החנוכה - ניסוך השמן' },
-                    { name: 'עשרה בטבת', date: 'י טבת', type: 'fast', desc: 'צום עשרה בטבת - תחילת המצור על ירושלים' },
-                    { name: 'ט"ו בשבט', date: 'ט"ו שבט', type: 'holiday', desc: 'ראש השנה לאילנות' },
-                    { name: 'פסח', date: 'ט"ו-כ"ב ניסן', type: 'holiday', desc: 'חג הפסח - ליל הסדר' },
-                    { name: 'פסח שני', date: 'ה אייר', type: 'holiday', desc: 'פסח שני' },
-                    { name: 'ל"ג בעומר', date: 'י"ח אייר', type: 'holiday', desc: 'הילולת רבי שמעון בר יוחאי' },
-                    { name: 'יום ירושלים', date: 'כ"ח אייר', type: 'holiday', desc: 'יום שחרור ירושלים' },
-                    { name: 'שבועות', date: 'ו-ז סיוון', type: 'holiday', desc: 'חג השבועות - מתן תורה' },
-                    { name: 'שבעה עשר בתמוז', date: 'י"ז תמוז', type: 'fast', desc: 'צום שבעה עשר בתמוז' },
-                    { name: 'תשעה באב', date: 'ט אב', type: 'fast', desc: 'צום תשעה באב' },
-                    { name: 'ט"ו באב', date: 'ט"ו אב', type: 'holiday', desc: 'חג האהבה' }
-                ];
-                
-                if (isLeap) {
-                    holidays.push(
-                        { name: 'תענית אסתר', date: 'י"ג אדר ב', type: 'fast', desc: 'תענית אסתר - ערב פורים' },
-                        { name: 'פורים', date: 'י"ד אדר ב', type: 'holiday', desc: 'פורים - קריאת המגילה ומשלוח מנות' },
-                        { name: 'שושן פורים', date: 'ט"ו אדר ב', type: 'holiday', desc: 'שושן פורים' }
-                    );
-                } else {
-                    holidays.push(
-                        { name: 'תענית אסתר', date: 'י"ג אדר', type: 'fast', desc: 'תענית אסתר - ערב פורים' },
-                        { name: 'פורים', date: 'י"ד אדר', type: 'holiday', desc: 'פורים - קריאת המגילה ומשלוח מנות' },
-                        { name: 'שושן פורים', date: 'ט"ו אדר', type: 'holiday', desc: 'שושן פורים' }
-                    );
-                }
-                
-                return holidays;
+                const fmt = (day) => HebCal.dateOf(day).toLocaleDateString('he-IL', { day: 'numeric', month: 'long', year: 'numeric' });
+                return HebCal.holidaysOfYear(this.displayYear).map(h => {
+                    const a = HebCal.fromDay(h.start), b = HebCal.fromDay(h.end);
+                    const heb = h.start === h.end ? `${HebCal.numeral(a.d)} ${HebCal.monthName(a.y, a.m)}`
+                        : (a.m === b.m ? `${HebCal.numeral(a.d)}-${HebCal.numeral(b.d)} ${HebCal.monthName(a.y, a.m)}` : `${HebCal.numeral(a.d)} ${HebCal.monthName(a.y, a.m)} - ${HebCal.numeral(b.d)} ${HebCal.monthName(b.y, b.m)}`);
+                    return { name: h.name, type: h.type, desc: h.desc, date: `${heb} (${h.start === h.end ? fmt(h.start) : fmt(h.start) + ' - ' + fmt(h.end)})` };
+                });
             }
             
             extractDayNumber(dateStr) {
@@ -3139,8 +2885,11 @@
                 const grid = document.getElementById('parshiot-grid');
                 grid.innerHTML = '';
                 
+                const thisYear = {};
+                HebCal.parshiotOfYear(this.displayYear).forEach(r => r.parts.forEach(i => { thisYear[HebCal.PARSHIOT[i]] = r; }));
                 this.allParshiot.forEach(parshaName => {
                     const parshaInfo = this.getParshaInfo(parshaName);
+                    const when = thisYear[parshaName] ? `<div class="parsha-date"><i class="fas fa-calendar-alt"></i> שבת ${HebCal.dateOf(thisYear[parshaName].day).toLocaleDateString('he-IL', { day: 'numeric', month: 'long' })} · ${HebCal.describe(thisYear[parshaName].day).text}${thisYear[parshaName].parts.length > 1 ? ' (פרשה מחוברת)' : ''}</div>` : '';
                     
                     const card = document.createElement('div');
                     card.className = 'parsha-card';
@@ -3148,6 +2897,7 @@
                         <div class="parsha-title">
                             <i class="fas fa-torah"></i> פרשת ${parshaName}
                         </div>
+                        ${when}
                         <div class="parsha-summary">${parshaInfo.summary}</div>
                         <div style="margin-top: 10px;">
                             <span class="source-tag"><i class="fas fa-scroll"></i> ${parshaInfo.verses}</span>
@@ -3166,6 +2916,16 @@
             }
             
             getParshaInfo(parshaName) {
+                if (parshaName && parshaName.indexOf('־') > 0 && !this.parshaDatabase[parshaName]) {
+                    const names = parshaName.split('־'), parts = names.map(n => this.getParshaInfo(n));
+                    return {
+                        summary: parts.map(p => p.summary).join(' '),
+                        verses: parts.map(p => p.verses).join(' ; '),
+                        topics: [].concat(...parts.map(p => p.topics || [])),
+                        detailedCommentary: parts.map((p, i) => `<h4 style="margin:14px 0 6px">${names[i]}</h4>` + p.detailedCommentary).join(''),
+                        lessons: [].concat(...parts.map(p => p.lessons || []))
+                    };
+                }
                 return this.parshaDatabase[parshaName] || {
                     summary: 'פרשה זו מופיעה בתורה ומהווה חלק מסיפור התורה',
                     verses: 'פסוקים בתורה',
@@ -3384,7 +3144,7 @@
             }
             
             updateDisplay() {
-                this.updateYearDisplay();
+                this.updateTodayInfo();
                 this.renderCalendar();
                 this.updateHolidaysView();
                 this.updateParshiotView();
